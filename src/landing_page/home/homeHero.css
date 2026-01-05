@@ -1,0 +1,39 @@
+.hero-container{
+    font-family: 'Inter', serif;
+    padding: 0 1.25rem 7.5rem;
+    margin-top: 3rem;
+}
+
+.hero-head{
+    margin-top: 1rem !important;
+    font-size: 1.75rem !important;
+}
+
+.hero-head, .hero-para{
+    color: #424242 !important;
+}
+
+.hero-para{
+    font-size: 1.25rem !important;
+    margin-bottom: 2.5rem;
+}
+
+.hero-img{
+    height: 39% !important;
+    width: 64.5%!important;
+    margin: 0 auto;
+}
+
+.hero-button{
+    width: 20% !important;
+    background-color: #387ed1 !important;
+    padding: 0.6rem 1.9rem !important;
+    font-size: 1.2rem !important;
+    font-weight: 500 !important;
+    margin: 0 auto;
+    border: none !important;
+}
+
+.hero-button:hover{
+    background-color: black !important;
+}
