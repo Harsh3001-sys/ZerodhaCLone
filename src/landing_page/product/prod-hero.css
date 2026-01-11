@@ -1,0 +1,35 @@
+.prod-h1{
+    color: #424242;
+    font-size: 1.75rem;
+}
+
+.prod-para{
+    color: #424242;
+    font-size: 1.25rem;
+    margin-top: 0.55rem;
+    margin-bottom: 0.9rem;
+}
+
+.prod-para1{
+    color: #424242;
+    font-size: 1rem;
+    margin-top: 0.9rem;
+    margin-bottom: 0.9rem;
+}
+
+.prod-para1-link{
+    text-decoration: none;
+    color: #387ed1;
+}
+
+.prod-para1-link:hover{
+    color: #424242;
+}
+
+.hero-cont{
+    padding-top: 6.25rem;
+}
+
+.hero-row{
+    padding-bottom: 6.25rem;
+}

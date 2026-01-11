@@ -1,0 +1,141 @@
+.table-container {
+  display: block;
+  border: 1px solid #e6e6e6;
+  border-radius: 4px;
+  overflow: hidden; /*keeps rounded corners clean */
+  background: #fff;
+  width: 100%;
+  max-width: 100%;
+}
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+  table-layout: fixed;
+}
+
+
+.t-section{
+    padding: 5rem 1.25rem 0;
+}
+
+.t-head, .pric-h2{
+    color: #424242;
+    font-size: 1.5rem;
+    margin-bottom: 1.25rem;
+    font-weight: 500;
+}
+
+.free-tag {
+  background: #4caf50;
+  color: white;
+  font-size: 0.75rem;
+  font-weight: 500;
+  padding: 0.25rem 0.6rem;
+  line-height: 1;
+}
+
+table td{
+    border: none !important;
+    font-size: .875rem;
+    padding: 0.75rem 1rem;
+    line-height: 1.7;
+    font-weight: 400;
+    color: #424242;
+}
+
+table thead tr th {
+    font-size: .875rem;
+    font-weight: 500;
+    border-bottom: 1px solid #ddd;
+    line-height: 1.7;
+    color: #424242;
+    padding: 0.75rem 1rem;
+}
+
+table tbody tr:nth-child(even) {
+  background-color: #fbfbfb;
+}
+
+
+.charges table th:first-child,
+.charges table td:first-child {
+  width: 85%;
+}
+
+.charges table th:last-child,
+.charges table td:last-child {
+  width: 15%;
+}
+
+.dmat table th:first-child,
+.dmat table td:first-child {
+  width: 40%;
+}
+
+.dmat table th:last-child,
+.dmat table td:last-child {
+  width: 60%;
+}
+
+.optional table th:nth-child(1),
+.optional table td:nth-child(1) {
+  width: 25%;
+}
+
+.optional table th:nth-child(2),
+.optional table td:nth-child(2) {
+  width: 25%;
+  text-align: left;
+}
+
+.optional table th:nth-child(3),
+.optional table td:nth-child(3) {
+  width: 50%;
+  text-align: left;
+}
+
+.t-p{
+    color: #424242;
+    font-size: 0.75rem;
+    margin-top: 0.6rem;
+    margin-bottom: 1rem;
+    font-weight: 400;
+    line-height: 1.8;
+}
+
+.t-p a, .p-txt a{
+    color: #387ed1;
+    text-decoration: none;
+}
+
+.t-p a:hover, .p-txt a:hover{
+    color: #424242;
+}
+
+.p-head{
+    color: #424242;
+    font-size: 1rem;
+    font-weight: 500;
+    margin-top: 1rem;
+    margin-bottom: 1rem;
+}
+
+.p-txt{
+    color: #424242;
+    font-size: 0.75rem;
+    font-weight: 400;
+    margin-top: 0.75rem;
+    margin-bottom: 1rem;
+}
+
+.p-txt li{
+    margin-bottom: 0.25rem;
+}
+
+.t-section-2{
+    padding-bottom: 5rem;
+    padding-left: 1.25rem;
+    padding-right: 1.25rem;
+}
+

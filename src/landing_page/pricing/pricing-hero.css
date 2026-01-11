@@ -1,0 +1,44 @@
+.pri-h1{
+    font-size: 1.75rem;
+    color: #424242;
+    line-height: 1.25;
+    font-weight: 500;
+}
+
+.pri-p{
+    font-size: 1.25rem;
+    color: #9b9b9b;
+    line-height: 1.8;
+    font-weight: 400;
+}
+
+.pri-cont{
+    padding-top: 6.25rem;
+    padding-bottom: 6.25rem;
+}
+
+.pr-hero-h2{
+    font-size: 1.75rem;
+    color: #424242;
+    margin-bottom: 1.25rem;
+    line-height: 1.6;
+    font-weight: 500;
+}
+
+.pr-img-txt{
+    font-size: 1rem;
+    color: #666666;
+    margin-top: 1rem;
+    margin-bottom: 1rem;
+    line-height: 1.8;
+    font-weight: 400;
+}
+
+.img-cont{
+    padding-top: 5rem;
+}
+
+.pricing-images img{
+    width: 70%;
+    margin-bottom: 1rem;
+}
