@@ -1,0 +1,53 @@
+.main-sec{
+    background-color: #f6f6f6;
+    padding: 2.5rem 3rem;
+}
+
+.input-box{
+    display: flex;
+    background-color: #fff;
+    justify-content: center;
+    align-items: center;
+    border: 1px solid #dedee3;
+    /* padding-left: 1.5rem; */
+    margin-left: 0.75rem;
+    margin-right: 0.75rem;
+}
+
+.supp-div{
+    padding-bottom: 2rem;
+    display: flex;
+    justify-content: space-between;
+    height: 4.5rem;
+}
+
+.supp-a{
+    font-size: 2.25rem;
+    color: #424242;
+    text-decoration: none;
+    font-weight: bold;
+}
+
+.inp-supp{
+    width: 100%;
+    padding: 1rem 0 1rem 0.25rem;
+    border: none;
+    outline: none;
+}
+
+.ticket-button{
+    background-color: #387ed1 !important;
+    font-size: 1rem !important;
+    font-weight: 500 !important;
+    border: none !important;
+}
+
+.ticket-button:hover{
+    background-color: black !important;
+}
+
+
+.supp-cont{
+    margin-left: 0;
+  margin-right: 0;
+}
