@@ -1,0 +1,36 @@
+.edu-container{
+    padding: 0 1.25rem 7.5rem;
+}
+
+.edu-img{
+    width: 75%;
+}
+
+.edu-h2{
+    font-size: 1.5rem;
+    color: #424242;
+    margin-bottom: 1.25rem;
+    font-weight: 500;
+    line-height: 1.5;
+}
+
+.edu-para{
+    color: #666666;
+    margin-bottom: 1rem;
+    margin-top: 1rem;
+    font-size: 1rem !important;
+    font-weight: 400;
+    line-height: 1.8;
+}
+
+.edu-para-2{
+    margin-top: 2rem;
+}
+
+.edu-link {
+    text-decoration: none;
+}
+
+.edu-link:hover{
+    color: #424242;
+}

@@ -1,0 +1,115 @@
+/* .drop span{
+    background-color: #f2f8fe;
+}
+
+.dropdown-toggle{
+    outline: none;
+    border: 1px solid #dedee3;
+} */
+
+.tick-cont{
+    padding: 2.5rem 3.5rem 0;
+}
+
+.drop {
+  width: 100%;
+}
+
+/* Button base style */
+.ticket-btn {
+  width: 60%;
+  background-color: #ffffff;
+  border: 1px solid #dedee3;
+  padding: 0;
+  font-size: 1.25rem;
+  height: 4rem;
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  transition: all 0.25s ease;
+}
+
+/* Remove bootstrap focus */
+.ticket-btn:focus {
+  box-shadow: none;
+}
+
+/* Hover effect (THIS IS THE KEY PART) */
+.ticket-btn:hover {
+  transform: scale(1.03);
+}
+
+/* Icon styling */
+.icon-box {
+  background-color: #f2f8fe;
+  width: 64px;
+  height: 64px;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  border-right: 1px solid #e6edf5;
+}
+
+.icon-box span {
+  color: #387ed1;
+  font-size: 28px;
+}
+
+
+
+.ticket-btn .icon {
+  font-size: 28px;
+  color: #387ed1;
+}
+
+/* Text */
+.ticket-btn .text {
+  /* padding: 0 20px; */
+  font-size: 18px;
+  flex: 1;
+  text-align: left;
+}
+
+/* Dropdown menu smoothness */
+.ticket-content {
+  border-left: 1px solid #e6e6e6;
+  border-bottom: 1px solid #e6e6e6;
+  border-right: 1px solid #e6e6e6;
+  max-height: 0;
+  overflow: hidden;
+  opacity: 0;
+  padding: 1rem 1.5rem 0 4.5rem;
+  transition: max-height 0.35s ease, opacity 0.25s ease;
+  width: 60%;
+}
+
+/* when open */
+.ticket.open .ticket-content {
+  max-height: 300px; /* enough to fit links */
+  opacity: 1;
+}
+
+/* links style */
+.ticket-content a {
+   display: list-item;
+  list-style-type: disc;
+  list-style-position: inside;
+  padding: 0.5rem 0;
+  text-decoration: none;
+  color: #387ed1;
+  font-size: 1rem;
+}
+
+.ticket-content a:not(:last-child) {
+  margin-bottom: 6px;
+}
+
+
+
+.ticket-btn.dropdown-toggle {
+  padding-right: 16px !important;
+}
+
+

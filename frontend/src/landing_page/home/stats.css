@@ -1,0 +1,63 @@
+.stats-container{
+    padding: 0 1.25rem 7.5rem;
+}
+
+.ecosystem{
+    width: 110%;
+}
+
+.ecosystem:hover{
+    cursor: pointer;
+}
+
+.stats-h2{
+    font-size: 1.5rem;
+    color: #424242;
+    margin-bottom: 2.5rem;
+    font-weight: 500;
+    line-height: 1.5;
+}
+
+.stats-h3{
+    font-size: 1.25rem;
+    color: #424242;
+    font-weight: 500;
+    line-height: 1.6;
+}
+
+.stats-para{
+    color: #666666;
+    margin-bottom: 2rem;
+    margin-top: 0.25rem;
+    font-size: 1rem !important;
+    font-weight: 400;
+    line-height: 1.8;
+}
+
+.links{
+    color: #387ed1;
+    margin: 1rem 0 1rem;
+}
+
+.link1, .link2{
+    text-decoration: none;
+    font-size: 1rem;
+}
+
+.link1:hover,.link2:hover{
+    color: #424242;
+}
+
+.link2{
+    margin-left: 1.25rem;
+}
+
+.press-img{
+    margin-top: 2rem;
+    opacity: 1;
+}
+
+.press-img:hover{
+    cursor: pointer;
+    opacity: 0.8;
+}

@@ -1,0 +1,79 @@
+.uni-button{
+    width: 20% !important;
+    background-color: #387ed1 !important;
+    padding: 0.6rem 1.9rem !important;
+    font-size: 1.2rem !important;
+    font-weight: 500 !important;
+    margin-top: 2.5rem;
+    margin-bottom: 5rem;
+    border: none !important;
+}
+
+.uni-button:hover{
+    background-color: black !important;
+}
+
+.uni-h1{
+    font-size: 1.25rem;
+    color: #424242;
+    margin-top: 0.6rem;
+    margin-bottom: 1rem;
+}
+
+.uni-h1 a{
+    color: #387ed1;
+    text-decoration: none;
+}
+
+.uni-h1 a:hover{
+    color: #424242;
+}
+
+.uni-h1-2{
+    font-size: 1.5rem;
+    color: #424242;
+    margin-bottom: 1.25rem;
+    padding-top: 5rem;
+}
+
+.uni-para{
+    font-size: 1rem;
+    color: #424242;
+    margin-top: 1rem;
+    margin-bottom: 1rem;
+}
+
+.uni-span{
+    font-size: 0.75rem;
+    color: #9b9b9b;
+}
+
+.uni-img{
+    width: 12rem;
+    margin-bottom: 1rem;
+}
+
+.uni-cont{
+    margin-top: 2.5rem;
+    align-items: center;
+    justify-content: center;
+}
+
+.uni-cont div{
+    margin-top: 1.25rem;
+    margin-bottom: 1.25rem;
+}
+
+.uni-images{
+    display: flex;
+    justify-content: space-evenly;
+}
+
+.tijori, .ditto, .streak{
+    width: 9rem;
+}
+
+.uni-cont a{
+    
+    text-decoration: none;
+}

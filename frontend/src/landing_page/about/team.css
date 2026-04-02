@@ -1,0 +1,60 @@
+.team-cont{
+    padding-bottom: 5rem;
+}
+
+.team-img{
+    border-radius: 100%;
+    width: 70%;
+    margin-bottom: 0.8rem;
+}
+
+.team-h2{
+    margin-bottom: 1.25rem;
+    font-size: 1.5rem;
+    color: #424242;
+}
+
+.team-heading{
+    font-size: 1.15rem;
+    color: #424242;
+}
+
+.team-p{
+    color: #666666;
+    font-size: 0.9rem;
+}
+
+.team-p1{
+    color: #424242;
+    font-size: 1rem;
+}
+
+.main-div{
+    /* padding-top: 2.5rem;
+    padding-bottom: 6.25rem; */
+    /* padding: 5rem 8.5rem; */
+    padding: 2.5rem 6.25rem 6.25rem;
+}
+
+.team-l{
+    color: #387ed1;
+    text-decoration: none;
+}
+
+.team-l:hover{
+    color: #424242;
+}
+
+.ceo-txt{
+    padding: 0;
+}
+
+.team-mem img{
+    width: 70%;
+}
+
+@media (max-width: 768px) {
+    .main-div {
+        padding: 2.5rem 1rem 3rem;
+    }
+}
