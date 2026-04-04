@@ -7,14 +7,28 @@ const PORT = process.env.PORT || 3002;
 const url = process.env.MONGO_URL;
 const cors = require("cors");
 const bodyParser = require("body-parser");
+const cookieParser = require("cookie-parser");
+const jwt = require("jsonwebtoken");
+
+app.use(cookieParser());
 
 app.use(bodyParser.json());
-app.use(cors());
+app.use(
+  cors({
+    origin: ["http://localhost:3000", "http://localhost:3001"],
+    credentials: true,
+  })
+);
 
 const PositionsModel = require("./model/PositionsModel");
 const HoldingsModel = require("./model/HoldingsModel");
 const OrdersModel = require("./model/OrdersModel");
+const UserModel = require("./model/UserModel");
 
+const { Signup } = require("./controllers/AuthController");
+const { Login } = require("./controllers/AuthController");
+const { userVerification } = require("./middlewares/AuthMiddleware");
+const verifyUser = require("./middlewares/verifyUser");
 // app.get("/addPositions", async (req, res) => {
 //     let tempPositions = [
 //         {
@@ -62,28 +76,118 @@ app.listen(PORT, () => {
     console.log("Connected to MongoDB");
 })
 
-app.get("/getPositions", async (req, res) => {
-    const positions = await PositionsModel.find({});
+app.get("/getPositions", verifyUser, async (req, res) => {
+    const positions = await PositionsModel.find({
+      userId: req.userId,
+    });
     res.send(positions);
 });
 
-app.get("/getHoldings", async (req, res) => {
-    const holdings = await HoldingsModel.find({});
+app.get("/getHoldings", verifyUser, async (req, res) => {
+    const holdings = await HoldingsModel.find({
+      userId: req.userId,
+    });
     res.send(holdings);
 });
 
-app.get("/getOrders", async (req, res) => {
-    const orders = await OrdersModel.find({});
+app.get("/getOrders", verifyUser, async (req, res) => {
+    const orders = await OrdersModel.find({
+      userId: req.userId,
+    });
     res.send(orders);
 });
 
-app.post("/newOrder", async (req, res) => {
-    let newOrder = new OrdersModel({
+app.post("/newOrder", verifyUser, async (req, res) => {
+    const { name, qty, price, mode } = req.body;
+    let newOrder = await OrdersModel.create({
+        userId: req.userId,
         name: req.body.name,
         qty: req.body.qty,
         price: req.body.price,
         mode: req.body.mode,
+        status: "PENDING",
     });
-    await newOrder.save();
-    res.send("Order created");
+
+    setTimeout(async () => {
+      const order = await OrdersModel.findById(newOrder._id);
+      if(!order) return;
+
+      if(mode === "BUY") {
+        const existingOrder = await HoldingsModel.findOne({
+          userId: order.userId,
+          name: order.name,
+        });
+
+        if(existingOrder) {
+          const totalQty = existingOrder.qty + order.qty;
+          const newAvg = ((existingOrder.avg * existingOrder.qty) + (order.price * order.qty)) / totalQty;
+
+          existingOrder.qty = totalQty;
+          existingOrder.avg = newAvg;
+          existingOrder.price = order.price;
+          await existingOrder.save();
+        }else{
+          await HoldingsModel.create({
+            userId: order.userId,
+            name: order.name,
+            qty: order.qty,
+            avg: order.price,
+            price: order.price,
+            net: "0%",
+            day: "0%",
+          });
+        }
+      }else if(mode === "SELL") {
+        const existingOrder = await HoldingsModel.findOne({
+          userId: order.userId,
+          name: order.name,
+        });
+        if(existingOrder) {
+          existingOrder.qty -= order.qty;
+          if(existingOrder.qty <= 0) {
+            await HoldingsModel.deleteOne({ _id: existingOrder._id });
+          } else {
+            await existingOrder.save();
+          }
+        }
+
+      }
+      order.status = "EXECUTED";
+      await order.save();
+    }, 5000);
+});
+
+app.post("/signup", Signup);
+app.post("/login", Login);
+app.post("/auth", (req, res) => {
+  // console.log("COOKIE:", req.cookies);
+  const token = req.cookies.token;
+
+  if (!token) {
+    return res.json({ status: false });
+  }
+
+  try {
+    jwt.verify(token, process.env.JWT_SECRET);
+    return res.json({ status: true });
+  } catch {
+    return res.json({ status: false });
+  }
+});
+app.post("/logout", (req, res) => {
+  res.clearCookie("token", {
+    httpOnly: true,
+    sameSite: "none",
+    secure: false,
+  }); // ✅ BEST WAY
+
+  res.json({
+    success: true,
+    message: "Logged out successfully",
+  });
+});
+
+app.get("/me", verifyUser, async (req, res) => {
+  const user = await UserModel.findById(req.userId);
+  res.json(user);
 });
