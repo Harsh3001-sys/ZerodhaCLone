@@ -71,90 +71,129 @@ const verifyUser = require("./middlewares/verifyUser");
 // })
 
 app.listen(PORT, () => {
-    console.log("App started");
-    mongoose.connect(url);
-    console.log("Connected to MongoDB");
+  console.log("App started");
+  mongoose.connect(url);
+  console.log("Connected to MongoDB");
 })
 
 app.get("/getPositions", verifyUser, async (req, res) => {
-    const positions = await PositionsModel.find({
-      userId: req.userId,
-    });
-    res.send(positions);
+  const positions = await PositionsModel.find({
+    userId: req.userId,
+  });
+  res.send(positions);
 });
 
 app.get("/getHoldings", verifyUser, async (req, res) => {
-    const holdings = await HoldingsModel.find({
-      userId: req.userId,
-    });
-    res.send(holdings);
+  const holdings = await HoldingsModel.find({
+    userId: req.userId,
+  });
+  res.send(holdings);
 });
 
 app.get("/getOrders", verifyUser, async (req, res) => {
-    const orders = await OrdersModel.find({
-      userId: req.userId,
-    });
-    res.send(orders);
+  const orders = await OrdersModel.find({
+    userId: req.userId,
+  });
+  res.send(orders);
 });
 
 app.post("/newOrder", verifyUser, async (req, res) => {
-    const { name, qty, price, mode } = req.body;
-    let newOrder = await OrdersModel.create({
-        userId: req.userId,
-        name: req.body.name,
-        qty: req.body.qty,
-        price: req.body.price,
-        mode: req.body.mode,
-        status: "PENDING",
+  const { name, qty, price, mode } = req.body;
+  const user = await UserModel.findById(req.userId);
+  if (mode === "SELL") {
+    const existingOrder = await HoldingsModel.findOne({
+      userId: req.userId,
+      name: req.body.name,
     });
 
-    setTimeout(async () => {
-      const order = await OrdersModel.findById(newOrder._id);
-      if(!order) return;
+    // ❌ No stock found
+    if (!existingOrder) {
+      return res.status(400).json({
+        message: "You don't own this stock",
+      });
+    }
 
-      if(mode === "BUY") {
-        const existingOrder = await HoldingsModel.findOne({
+    // ❌ Not enough quantity
+    if (existingOrder.qty < qty) {
+      return res.status(400).json({
+        message: "Insufficient stock quantity",
+      });
+    }
+  }
+
+  if(mode === "BUY"){
+    const totalCost = qty * price;
+
+    if(user.balance < totalcost){
+       return res.status(400).json({
+        message: "Insufficient balance",
+      });
+    }
+
+    user.balance -= totalCost;
+    await user.save();
+  }
+
+  let newOrder = await OrdersModel.create({
+    userId: req.userId,
+    name: req.body.name,
+    qty: req.body.qty,
+    price: req.body.price,
+    mode: req.body.mode,
+    status: "PENDING",
+  });
+
+  setTimeout(async () => {
+    const order = await OrdersModel.findById(newOrder._id);
+    if (!order) return;
+
+    if (order.mode === "BUY") {
+      const existingOrder = await HoldingsModel.findOne({
+        userId: order.userId,
+        name: order.name,
+      });
+
+      if (existingOrder) {
+        const totalQty = existingOrder.qty + order.qty;
+        const newAvg = ((existingOrder.avg * existingOrder.qty) + (order.price * order.qty)) / totalQty;
+
+        existingOrder.qty = totalQty;
+        existingOrder.avg = newAvg;
+        existingOrder.price = order.price;
+        await existingOrder.save();
+      } else {
+        await HoldingsModel.create({
           userId: order.userId,
           name: order.name,
+          qty: order.qty,
+          avg: order.price,
+          price: order.price,
+          net: "0%",
+          day: "0%",
         });
-
-        if(existingOrder) {
-          const totalQty = existingOrder.qty + order.qty;
-          const newAvg = ((existingOrder.avg * existingOrder.qty) + (order.price * order.qty)) / totalQty;
-
-          existingOrder.qty = totalQty;
-          existingOrder.avg = newAvg;
-          existingOrder.price = order.price;
-          await existingOrder.save();
-        }else{
-          await HoldingsModel.create({
-            userId: order.userId,
-            name: order.name,
-            qty: order.qty,
-            avg: order.price,
-            price: order.price,
-            net: "0%",
-            day: "0%",
-          });
-        }
-      }else if(mode === "SELL") {
-        const existingOrder = await HoldingsModel.findOne({
-          userId: order.userId,
-          name: order.name,
-        });
-        if(existingOrder) {
-          existingOrder.qty -= order.qty;
-          if(existingOrder.qty <= 0) {
-            await HoldingsModel.deleteOne({ _id: existingOrder._id });
-          } else {
-            await existingOrder.save();
-          }
-        }
-
       }
-      order.status = "EXECUTED";
-      await order.save();
-    }, 5000);
+    } else if (order.mode === "SELL") {
+      const existingOrder = await HoldingsModel.findOne({
+        userId: order.userId,
+        name: order.name,
+      });
+
+      if (!existingOrder) return;
+
+
+      existingOrder.qty -= order.qty;
+      if (existingOrder.qty <= 0) {
+        await HoldingsModel.deleteOne({ _id: existingOrder._id });
+      } else {
+        await existingOrder.save();
+      }
+      const user = await UserModel.findById(order.userId);
+      user.balance += order.qty * order.price;
+      await user.save();
+    }
+    order.status = "EXECUTED";
+    await order.save();
+  }, 5000);
 });
 
 app.post("/signup", Signup);

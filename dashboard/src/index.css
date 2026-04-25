@@ -842,5 +842,129 @@ hr {
   background-color: rgb(212, 212, 212);
 }
 
+/* new css */
+/* Hamburger */
+.hamburger {
+  display: none;
+  font-size: 26px;
+  cursor: pointer;
+  z-index: 1100;
+}
+
+/* MOBILE VIEW */
+/* ================= MOBILE NAVBAR FIX ================= */
+@media (max-width: 768px) {
+
+  .menu-container {
+    position: relative;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px;
+  }
+
+  .hamburger {
+    display: block;
+    font-size: 26px;
+    cursor: pointer;
+    z-index: 1100;
+  }
+
+  /* 🔥 FORCE DROPDOWN STYLE (NOT SIDEBAR) */
+  .menus {
+    position: fixed; /* 🔥 KEY CHANGE */
+    top: 60px;
+    left: 0;
+
+    width: 100%;
+    height: auto;
+
+    background: #fff;
+
+    display: none;
+    flex-direction: column !important; /* override old flex */
+
+    padding: 20px;
+
+    z-index: 9999;
+
+    box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+  }
+
+  .menus.active {
+    display: flex;
+  }
+
+  /* 🔥 FORCE VERTICAL LIST */
+  .menus ul {
+    width: 100%;
+    padding: 0;
+    margin: 0;
+  }
+
+  .menus li {
+    display: block !important;
+    width: 100%;
+    margin-bottom: 15px;
+  }
+
+  .menus li p {
+    width: 100%;
+  }
+
+  /* 🔥 OVERRIDE DESKTOP FLEX */
+  .menus {
+    justify-content: flex-start !important;
+    align-items: flex-start !important;
+  }
+
+  /* Profile section */
+  .profile {
+    width: 100%;
+    margin-top: 20px;
+  }
+}
 
 
+@media (max-width: 768px) {
+
+  /* Stack layout */
+  .dashboard-container {
+    flex-direction: column;
+    height: auto;
+  }
+
+  /* Content full width */
+  .content {
+    width: 100%;
+    flex-basis: 100%;
+  }
+
+  /* 🔥 WATCHLIST FIX */
+  .watchlist-container {
+    width: 100%;
+    height: auto;
+    flex-basis: 100%;
+    order: 2; /* comes below content */
+
+    box-shadow: none;
+    border-top: 1px solid #eee;
+  }
+
+  /* Fix search bar */
+  .search {
+    font-size: 14px;
+    padding: 12px;
+  }
+
+  /* List spacing */
+  .list li {
+    padding: 10px;
+  }
+
+  /* Fix item layout */
+  .item {
+    font-size: 14px;
+  }
+
+}

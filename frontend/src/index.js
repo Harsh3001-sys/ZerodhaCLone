@@ -1,7 +1,8 @@
 import React from 'react';
 import ReactDOM from 'react-dom/client';
-import {BrowserRouter, Routes, Route} from "react-router-dom";
+import { BrowserRouter, Routes, Route } from "react-router-dom";
 import "react-toastify/dist/ReactToastify.css";
+import { ToastContainer } from "react-toastify";
 import './index.css';
 import HomePage from './landing_page/home/HomePage';
 import Signup from './landing_page/signup/SignUp';
@@ -17,17 +18,27 @@ import NoPageFound from './landing_page/noPageFound';
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
   <BrowserRouter>
-  <Navbar />
+    <Navbar />
     <Routes>
-      <Route path="/" element={<HomePage />}/>
-      <Route path="/signup" element={<Signup />}/>
-      <Route path="/login" element={<Login />}/>
-      <Route path="/about" element={<About />}/>
-      <Route path="/products" element={<ProductPage />}/>
-      <Route path="/pricing" element={<Pricing />}/>
-      <Route path="/support" element={<Support />}/>
-      <Route path="*" element={<NoPageFound />}/>
+      <Route path="/" element={<HomePage />} />
+      <Route path="/signup" element={<Signup />} />
+      <Route path="/login" element={<Login />} />
+      <Route path="/about" element={<About />} />
+      <Route path="/products" element={<ProductPage />} />
+      <Route path="/pricing" element={<Pricing />} />
+      <Route path="/support" element={<Support />} />
+      <Route path="*" element={<NoPageFound />} />
     </Routes>
-  <Footer />
+    <Footer />
+    <ToastContainer
+      position="bottom-left"
+      autoClose={2000}
+      hideProgressBar={false}
+      newestOnTop={false}
+      closeOnClick
+      pauseOnHover
+      draggable
+      theme="colored"
+    />
   </BrowserRouter>
 );

@@ -1,4 +1,4 @@
-const {Schema} = require("mongoose");
+const { Schema } = require("mongoose");
 const bcrypt = require("bcryptjs");
 const userSchema = new Schema({
   email: {
@@ -18,6 +18,10 @@ const userSchema = new Schema({
     type: Date,
     default: Date.now,
   },
+  balance: {
+    type: Number,
+    default: 50000,
+  }
 });
 
 userSchema.pre("save", async function () {

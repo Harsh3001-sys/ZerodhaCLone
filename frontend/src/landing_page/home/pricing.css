@@ -1,4 +1,4 @@
-.pricing-container{
+/* .pricing-container{
     padding: 0 1.25rem 7.5rem;
 }
 
@@ -26,7 +26,6 @@
 .pricing-item{
     display: flex;
     align-items: center;
-    /* gap: 0.75rem; */
     max-width: 11rem;
 }
 
@@ -48,4 +47,111 @@
 
 .pricing-link a:hover{
     color: #424242;
+} */
+
+
+/* ===== PRICING SECTION ===== */
+
+.pricing-container {
+  padding: 0 1.25rem 5rem;
+}
+
+/* ===== TEXT ===== */
+.pricing-head {
+  margin-bottom: 1.25rem;
+  font-size: 1.6rem;
+  color: #424242;
+}
+
+.pricing-para {
+  color: #666666;
+  margin: 1rem 0;
+  font-size: 1rem !important;
+  line-height: 1.7;
+}
+
+/* ===== IMAGES ROW ===== */
+.images {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  flex-wrap: wrap; /* 🔥 IMPORTANT */
+  gap: 20px;
+}
+
+/* ===== ITEM ===== */
+.pricing-item {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+
+  flex: 1;
+  min-width: 180px;
+}
+
+/* Image */
+.pricing-item img {
+  width: 60px;
+}
+
+/* Text */
+.pricing-item p {
+  font-size: 0.85rem !important;
+  color: #666666 !important;
+  line-height: 1.6;
+}
+
+/* ===== LINK ===== */
+.pricing-link {
+  margin-top: 20px;
+}
+
+.pricing-link a {
+  text-decoration: none;
+  font-size: 1rem;
+  font-weight: 500;
+  color: #387ed1;
+}
+
+.pricing-link a:hover {
+  color: #000;
+}
+
+/* ===== TABLET ===== */
+@media (max-width: 992px) {
+
+  .images {
+    justify-content: center;
+  }
+
+  .pricing-item {
+    flex: 0 0 45%; /* 2 per row */
+  }
+}
+
+/* ===== MOBILE ===== */
+@media (max-width: 576px) {
+
+  .pricing-container {
+    padding: 0 1rem 3rem;
+    text-align: center;
+  }
+
+  .pricing-item {
+    flex: 0 0 100%;
+    justify-content: center;
+    text-align: left;
+  }
+
+  .pricing-item img {
+    width: 50px;
+  }
+
+  .pricing-item p {
+    font-size: 0.9rem !important;
+  }
+
+  .pricing-link {
+    text-align: center;
+  }
 }

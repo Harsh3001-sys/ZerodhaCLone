@@ -39,6 +39,7 @@ const Orders = () => {
                 <th>Name</th>
                 <th>Qty.</th>
                 <th>Price</th>
+                <th>Mode</th>
                 <th>Status</th>
               </tr>
             </thead>
@@ -49,6 +50,7 @@ const Orders = () => {
                     <td>{order.name}</td>
                     <td>{order.qty}</td>
                     <td>{order.price}</td>
+                    <td>{order.mode}</td>
                     <td className={order.status === "EXECUTED" ? "profit" : "loss"}>
                       {order.status}
                     </td>

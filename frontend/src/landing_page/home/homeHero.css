@@ -1,4 +1,4 @@
-.hero-container{
+/* .hero-container{
     font-family: 'Inter', serif;
     padding: 0 1.25rem 7.5rem;
     margin-top: 3rem;
@@ -36,4 +36,96 @@
 
 .hero-button:hover{
     background-color: black !important;
+} */
+
+
+/* ===== HERO SECTION ===== */
+
+.hero-container {
+  font-family: 'Inter', serif;
+  padding: 0 1.25rem 5rem;
+  margin-top: 3rem;
+}
+
+/* ===== IMAGE ===== */
+.hero-img {
+  width: 65%;
+  max-width: 700px;
+  height: auto;
+  margin: 0 auto 30px;
+  display: block;
+}
+
+/* ===== TEXT ===== */
+.hero-head {
+  margin-top: 1rem !important;
+  font-size: 2rem;
+  color: #424242;
+}
+
+.hero-para {
+  font-size: 1.2rem;
+  color: #424242;
+  margin-bottom: 2rem;
+}
+
+/* ===== BUTTON ===== */
+.hero-button {
+  background-color: #387ed1 !important;
+  padding: 10px 24px !important;
+  font-size: 1rem !important;
+  font-weight: 500 !important;
+  border: none !important;
+  border-radius: 4px;
+}
+
+.hero-button:hover {
+  background-color: black !important;
+}
+
+/* ===== TABLET ===== */
+@media (max-width: 992px) {
+
+  .hero-img {
+    width: 80%;
+  }
+
+  .hero-head {
+    font-size: 1.7rem;
+  }
+
+  .hero-para {
+    font-size: 1.1rem;
+  }
+}
+
+/* ===== MOBILE ===== */
+@media (max-width: 576px) {
+
+  .hero-container {
+    padding: 0 1rem 3rem;
+    margin-top: 2rem;
+  }
+
+  .hero-img {
+    width: 95%;
+    margin-bottom: 20px;
+  }
+
+  .hero-head {
+    font-size: 1.4rem;
+  }
+
+  .hero-para {
+    font-size: 1rem;
+    line-height: 1.6;
+  }
+
+  /* 🔥 IMPORTANT FIX */
+  .hero-button {
+    width: 100% !important;
+    max-width: 250px;
+    margin: 0 auto;
+    display: block;
+  }
 }

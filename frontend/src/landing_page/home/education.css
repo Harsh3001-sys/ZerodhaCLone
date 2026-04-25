@@ -34,3 +34,70 @@
 .edu-link:hover{
     color: #424242;
 }
+
+/* ===== EDUCATION RESPONSIVE ===== */
+
+.edu-container {
+  padding: 0 1.25rem 5rem;
+}
+
+/* Image fix */
+.edu-img {
+  width: 75%;
+  max-width: 400px;
+}
+
+/* Links spacing */
+.edu-link {
+  display: inline-block;
+  margin-top: 8px;
+  font-weight: 500;
+}
+
+/* ===== MOBILE ===== */
+@media (max-width: 768px) {
+
+  .edu-container {
+    padding: 0 1rem 3rem;
+    text-align: center;
+  }
+
+  /* Stack spacing */
+  .edu-container .row {
+    row-gap: 25px;
+  }
+
+  /* Center image */
+  .edu-img {
+    width: 90%;
+    margin: 0 auto;
+    display: block;
+  }
+
+  /* Text alignment */
+  .edu-h2 {
+    font-size: 1.3rem;
+  }
+
+  .edu-para {
+    font-size: 0.95rem !important;
+  }
+
+  /* Links centered */
+  .edu-link {
+    display: inline-block;
+    margin-bottom: 10px;
+  }
+}
+
+/* ===== TABLET ===== */
+@media (max-width: 992px) {
+
+  .edu-img {
+    width: 85%;
+  }
+
+  .edu-container .row {
+    align-items: center;
+  }
+}

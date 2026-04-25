@@ -1,4 +1,4 @@
-.pri-h1{
+/* .pri-h1{
     font-size: 1.75rem;
     color: #424242;
     line-height: 1.25;
@@ -41,4 +41,104 @@
 .pricing-images img{
     width: 70%;
     margin-bottom: 1rem;
+} */
+
+
+/* ===== PRICING HERO ===== */
+
+.pri-cont {
+  padding: 4rem 0;
+}
+
+/* Heading */
+.pri-h1 {
+  font-size: 2rem;
+  color: #424242;
+  font-weight: 500;
+}
+
+.pri-p {
+  font-size: 1.2rem;
+  color: #9b9b9b;
+}
+
+/* ===== IMAGE SECTION ===== */
+.img-cont {
+  padding-top: 3rem;
+}
+
+/* Cards */
+.pricing-images {
+  margin-bottom: 30px;
+}
+
+/* Image */
+.pricing-images img {
+  width: 65%;
+  max-width: 180px;
+  height: auto;
+  margin-bottom: 1rem;
+}
+
+/* Title */
+.pr-hero-h2 {
+  font-size: 1.4rem;
+  color: #424242;
+  margin-bottom: 0.8rem;
+}
+
+/* Text */
+.pr-img-txt {
+  font-size: 0.95rem;
+  color: #666666;
+  line-height: 1.7;
+}
+
+/* ===== TABLET ===== */
+@media (max-width: 992px) {
+
+  .pricing-images img {
+    width: 60%;
+  }
+
+  .pr-hero-h2 {
+    font-size: 1.3rem;
+  }
+}
+
+/* ===== MOBILE ===== */
+@media (max-width: 576px) {
+
+  .pri-cont {
+    padding: 3rem 0;
+  }
+
+  .pri-h1 {
+    font-size: 1.5rem;
+  }
+
+  .pri-p {
+    font-size: 1rem;
+  }
+
+  .img-cont {
+    padding-top: 2rem;
+  }
+
+  /* Stack spacing */
+  .img-cont .row {
+    row-gap: 25px;
+  }
+
+  .pricing-images img {
+    width: 50%;
+  }
+
+  .pr-hero-h2 {
+    font-size: 1.2rem;
+  }
+
+  .pr-img-txt {
+    font-size: 0.9rem;
+  }
 }

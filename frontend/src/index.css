@@ -24,31 +24,49 @@ code {
 }
 
 .Logo{
-    width: 21%;
+    /* width: 21%; */
+     height: 16px;
+  width: auto;
 }
 
 /* Mobile dropdown panel */
+/* ===== MOBILE NAVBAR FIX ===== */
 @media (max-width: 768px) {
-  .mobile-menu {
-    background-color: #ffffff;
-    padding: 0.75rem 1rem;
-    margin-top: 0.5rem;
-    border-radius: 8px;
-    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.12);
+
+  /* FIX NAVBAR LAYOUT */
+  .navbar .container {
+    display: flex;
+    align-items: center;
+    flex-wrap: nowrap; /* 🔥 prevents overlap */
   }
 
-  .mobile-menu .nav-link {
-    padding: 0.75rem 0.5rem !important;
-    border-radius: 4px;
+  .navbar-brand {
+    flex-shrink: 0;
   }
 
-  .mobile-menu .nav-link:hover {
-    background-color: #f5f5f5;
+  .navbar-toggler {
+    margin-left: auto;
+  }
+
+  /* FULL WIDTH DROPDOWN */
+  .navbar-collapse {
+    position: absolute;
+    top: 100%;
+    left: 0;
+    width: 100%;
+    background: #fff;
+    padding: 10px 20px;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+    z-index: 999;
+  }
+
+  .nav-link {
+    padding: 12px 0 !important;
   }
 }
 
 
-.nav-link{
+/* .nav-link{
     color: #666666;
     font-size: 0.9rem;
     padding: 1.25rem !important;
@@ -56,11 +74,11 @@ code {
 
 .nav-link:hover{
     color: #387ed1;
-}
+} */
 
 /* Openaccount styling */
 
-.acc-cont{
+/* .acc-cont{
     padding: 2.5rem 0 5rem;
 }
 
@@ -93,10 +111,83 @@ code {
 
 .acc-btn:hover{
     background-color: black !important;
+} */
+
+
+/* ===== OPEN ACCOUNT SECTION ===== */
+
+.acc-cont {
+  padding: 3rem 0 5rem;
+}
+
+/* Heading */
+.acc-head {
+  font-size: 1.6rem;
+  color: #424242;
+  margin-bottom: 1rem;
+  font-weight: 500;
+}
+
+/* Paragraph */
+.acc-para {
+  color: #666666;
+  margin: 1rem 0 2rem;
+  font-size: 1rem !important;
+  line-height: 1.7;
+}
+
+/* Button */
+.acc-btn {
+  background-color: #387ed1 !important;
+  padding: 10px 24px !important;
+  font-size: 1rem !important;
+  font-weight: 500 !important;
+  border: none !important;
+  border-radius: 4px;
+}
+
+.acc-btn:hover {
+  background-color: black !important;
+}
+
+/* ===== TABLET ===== */
+@media (max-width: 992px) {
+
+  .acc-head {
+    font-size: 1.4rem;
+  }
+
+  .acc-para {
+    font-size: 0.95rem !important;
+  }
+}
+
+/* ===== MOBILE ===== */
+@media (max-width: 576px) {
+
+  .acc-cont {
+    padding: 2rem 1rem 3rem;
+  }
+
+  .acc-head {
+    font-size: 1.3rem;
+  }
+
+  .acc-para {
+    font-size: 0.9rem !important;
+  }
+
+  /* 🔥 IMPORTANT FIX */
+  .acc-btn {
+    width: 100% !important;
+    max-width: 260px;
+    margin: 0 auto;
+    display: block;
+  }
 }
 
 /* footer styling */
-
+/* 
 footer{
     background-color: #fbfbfb;
 }
@@ -176,4 +267,144 @@ footer{
 
 .f-link-last a:hover{
     color: #387ed1;
+} */
+
+/* ===== FOOTER BASE ===== */
+footer {
+  background-color: #fbfbfb;
+  padding-top: 30px;
+}
+
+.footer-cont {
+  padding: 20px 0;
+}
+
+/* ===== GRID FIX ===== */
+.footer-cont .row {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: flex-start;
+}
+
+/* Equal spacing for all columns */
+.footer-cont .col {
+  flex: 1;
+  min-width: 180px;
+  margin-bottom: 20px;
+}
+
+/* ===== LEFT SECTION FIX ===== */
+.footer-logo {
+  width: 140px;
+  margin-bottom: 10px;
+}
+
+.footer-p {
+  font-size: 0.8rem;
+  margin-bottom: 5px;
+}
+
+/* ===== SOCIAL ICONS FIX ===== */
+.socials {
+  display: flex;
+  justify-content: flex-start;
+  gap: 15px;
+  padding: 0;
+  margin: 10px 0;
+}
+
+.socials i {
+  font-size: 1.2rem;
+  color: #666;
+}
+
+.socials i:hover {
+  color: #387ed1;
+  cursor: pointer;
+}
+
+/* ===== LINKS FIX ===== */
+.footer-links {
+  list-style: none;
+  padding: 0;
+}
+
+.footer-links h2 {
+  font-size: 1rem;
+  margin-bottom: 10px;
+}
+
+.footer-links li {
+  margin-bottom: 6px;
+}
+
+.footer-links a {
+  font-size: 0.85rem;
+  color: #666;
+  text-decoration: none;
+}
+
+.footer-links a:hover {
+  color: #387ed1;
+}
+
+/* ===== FOOTER TEXT ===== */
+.footer-txt {
+  margin-top: 30px;
+}
+
+.footer-txt p {
+  font-size: 0.7rem;
+  color: #9b9b9b;
+  line-height: 1.5;
+  margin-bottom: 10px;
+}
+
+/* ===== BOTTOM LINKS ===== */
+.f-link-last {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 15px;
+  padding: 10px 0;
+}
+
+.f-link-last a {
+  font-size: 0.75rem;
+  color: #9b9b9b;
+  text-decoration: none;
+}
+
+.f-link-last a:hover {
+  color: #387ed1;
+}
+
+/* ===== FOOTER RESPONSIVE ===== */
+@media (max-width: 768px) {
+
+  /* Stack everything */
+  .footer-cont .col {
+    flex: 0 0 100%;
+    text-align: center;
+  }
+
+  /* Center logo */
+  .footer-logo {
+    margin: 0 auto 10px;
+  }
+
+  /* Center icons */
+  .socials {
+    justify-content: center;
+  }
+
+  /* Links spacing */
+  .footer-links {
+    margin-top: 15px;
+  }
+
+  /* Better readability */
+  .footer-txt p {
+    text-align: left;
+  }
 }

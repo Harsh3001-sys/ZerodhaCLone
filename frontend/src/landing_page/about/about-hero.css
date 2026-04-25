@@ -1,4 +1,4 @@
-.abth2{
+/* .abth2{
     font-size: 1.5rem;
     color: #424242;
     line-height: 1.5;
@@ -27,4 +27,86 @@
 
 .abt-link:hover{
     color: #424242;
+} */
+
+/* ===== ABOUT HERO ===== */
+
+/* Heading */
+.abth2 {
+  font-size: 1.8rem;
+  color: #424242;
+  line-height: 1.5;
+  max-width: 800px;
+  margin: 0 auto;
+}
+
+/* Heading spacing */
+.heading {
+  padding: 5rem 0;
+}
+
+/* Paragraph section */
+.abt-p {
+  padding: 3rem 2rem; /* 🔥 FIXED (no large side padding) */
+}
+
+/* Text */
+.abt-para {
+  font-size: 1rem;
+  color: #424242;
+  margin: 1rem 0;
+  line-height: 1.7;
+}
+
+/* Links */
+.abt-link {
+  text-decoration: none;
+  color: #387ed1;
+}
+
+.abt-link:hover {
+  color: #000;
+}
+
+/* ===== TABLET ===== */
+@media (max-width: 992px) {
+
+  .abth2 {
+    font-size: 1.5rem;
+  }
+
+  .heading {
+    padding: 4rem 0;
+  }
+
+  .abt-p {
+    padding: 2rem 1.5rem;
+  }
+}
+
+/* ===== MOBILE ===== */
+@media (max-width: 576px) {
+
+  .heading {
+    padding: 3rem 0;
+  }
+
+  .abth2 {
+    font-size: 1.3rem;
+    text-align: center;
+  }
+
+  .abt-p {
+    padding: 1.5rem 1rem;
+  }
+
+  /* Stack spacing */
+  .abt-p .row {
+    row-gap: 20px;
+  }
+
+  .abt-para {
+    font-size: 0.95rem;
+    text-align: left;
+  }
 }

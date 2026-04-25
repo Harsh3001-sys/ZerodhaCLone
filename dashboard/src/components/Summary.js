@@ -38,7 +38,7 @@ const Summary = () => {
   const pnlPercent =
     totalInvestment > 0 ? ((pnl / totalInvestment) * 100).toFixed(2) : 0;
 
-  const openingBalance = 50000.0;
+  const openingBalance = user?.balance || 0;
   const marginUsed = totalInvestment;
   const marginAvailable = openingBalance - marginUsed;
   return (
@@ -57,6 +57,8 @@ const Summary = () => {
           <div className="first">
             <h3>{marginAvailable.toFixed(2)}</h3>
             <p>Margin available</p>
+            <h3>₹{user?.balance || 0}</h3>
+            <p>Balance available</p>
           </div>
           <hr />
 

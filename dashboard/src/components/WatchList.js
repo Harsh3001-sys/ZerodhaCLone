@@ -5,6 +5,7 @@ import axios from "axios";
 import GeneralContext from "./GeneralContext";
 
 import { Tooltip, Grow } from "@mui/material";
+import "./watchlist.css";
 
 import {
   BarChartOutlined,
@@ -72,6 +73,11 @@ const WatchList = () => {
   //   },
   // ],
   // };
+  const [searchTerm, setSearchTerm] = useState("");
+
+  const filteredWatchlist = watchlist.filter((stock) =>
+    stock.name.toLowerCase().includes(searchTerm.toLowerCase())
+  );
 
   return (
     <div className="watchlist-container">
@@ -80,14 +86,16 @@ const WatchList = () => {
           type="text"
           name="search"
           id="search"
-          placeholder="Search eg:infy, bse, nifty fut weekly, gold mcx"
+          placeholder="Search:infy, bse, nifty fut weekly, gold mcx"
           className="search"
+          value={searchTerm}
+          onChange={(e) => setSearchTerm(e.target.value)}
         />
-        <span className="counts"> {watchlist.length} / 50</span>
+        <span className="counts"> {filteredWatchlist.length} / 50</span>
       </div>
 
       <ul className="list">
-        {watchlist.map((stock, index) => {
+        {filteredWatchlist.map((stock, index) => {
           return <WatchListItem stock={stock} key={index} />;
         })}
       </ul>
@@ -119,7 +127,7 @@ const WatchListItem = ({ stock }) => {
           {stock.isDown ? (
             <KeyboardArrowDown className="down" />
           ) : (
-            <KeyboardArrowUp className="down" />
+            <KeyboardArrowUp className="up" />
           )}
           <span className="price">{stock.price}</span>
         </div>
@@ -135,6 +143,10 @@ const WatchListActions = ({ uid }) => {
   const handleBuyClick = () => {
     generalContext.openBuyWindow(uid);
   };
+
+  const handleSellClick = () => {
+    generalContext.openSellWindow(uid);
+  }
 
   return (
     <span className="actions">
@@ -153,6 +165,7 @@ const WatchListActions = ({ uid }) => {
           placement="top"
           arrow
           TransitionComponent={Grow}
+          onClick={handleSellClick}
         >
           <button className="sell">Sell</button>
         </Tooltip>

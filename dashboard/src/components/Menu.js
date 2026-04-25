@@ -9,6 +9,7 @@ const Menu = () => {
   const [selectedMenu, setSelectedMenu] = useState(0);
   const [isProfileDropdownOpen, setIsProfileDropdownOpen] = useState(false);
   const [user, setUser] = useState(null);
+  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
 
   useEffect(() => {
     axios.get("http://localhost:3002/me", {
@@ -52,13 +53,19 @@ const Menu = () => {
   return (
     <div className="menu-container">
       <img src="logo.png" alt="logo" style={{ width: "50px" }} />
-      <div className="menus">
+      <div className="hamburger" onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}>
+        ☰
+      </div>
+      <div className={`menus ${isMobileMenuOpen ? "active" : ""}`}>
         <ul>
           <li>
             <Link
               style={{ textDecoration: "none" }}
               to="/"
-              onClick={() => handleMenuClick(0)}
+              onClick={() => {
+                handleMenuClick(0);
+                setIsMobileMenuOpen(false);
+              }}
             >
               <p className={selectedMenu === 0 ? activeMenuClass : menuClass}>
                 Dashboard
@@ -69,7 +76,10 @@ const Menu = () => {
             <Link
               style={{ textDecoration: "none" }}
               to="/orders"
-              onClick={() => handleMenuClick(1)}
+              onClick={() => {
+                handleMenuClick(1);
+                setIsMobileMenuOpen(false);
+              }}
             >
               <p className={selectedMenu === 1 ? activeMenuClass : menuClass}>
                 Orders
@@ -80,7 +90,10 @@ const Menu = () => {
             <Link
               style={{ textDecoration: "none" }}
               to="/holdings"
-              onClick={() => handleMenuClick(2)}
+              onClick={() => {
+                handleMenuClick(2);
+                setIsMobileMenuOpen(false);
+              }}
             >
               <p className={selectedMenu === 2 ? activeMenuClass : menuClass}>
                 Holdings
@@ -91,7 +104,10 @@ const Menu = () => {
             <Link
               style={{ textDecoration: "none" }}
               to="/positions"
-              onClick={() => handleMenuClick(3)}
+              onClick={() => {
+                handleMenuClick(3);
+                setIsMobileMenuOpen(false);
+              }}
             >
               <p className={selectedMenu === 3 ? activeMenuClass : menuClass}>
                 Positions
@@ -102,7 +118,10 @@ const Menu = () => {
             <Link
               style={{ textDecoration: "none" }}
               to="/funds"
-              onClick={() => handleMenuClick(4)}
+              onClick={() => {
+                handleMenuClick(4);
+                setIsMobileMenuOpen(false);
+              }}
             >
               <p className={selectedMenu === 4 ? activeMenuClass : menuClass}>
                 Funds
@@ -113,7 +132,10 @@ const Menu = () => {
             <Link
               style={{ textDecoration: "none" }}
               to="/apps"
-              onClick={() => handleMenuClick(6)}
+              onClick={() => {
+                handleMenuClick(6);
+                setIsMobileMenuOpen(false);
+              }}
             >
               <p className={selectedMenu === 6 ? activeMenuClass : menuClass}>
                 Apps
@@ -139,7 +161,9 @@ const Menu = () => {
                 {user?.email}
               </p>
 
-              <hr />
+              <p className="dropdown-item">
+                ₹{user.balance}
+              </p>
 
               <p className="dropdown-item logout" onClick={handleLogout}>
                 Logout
