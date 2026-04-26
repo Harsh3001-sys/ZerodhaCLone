@@ -1,19 +1,29 @@
 import React from "react";
 import { useState, useEffect } from "react";
 import axios from "axios";
-
-// import { positions } from "../data/data";
+import Loader from "./Loader";
 
 const Positions = () => {
   const [allPositions, setAllPositions] = useState([]);
+  const [loading, setLoading] = useState(true);
   useEffect(() => {
     axios.get("http://localhost:3002/getPositions", {
       withCredentials: true, // ✅ VERY IMPORTANT
     }).then((res) => {
-      // console.log(res.data);
       setAllPositions(res.data);
+    }).catch((err) => {
+      console.error("Error fetching positions:", err);
+    }).finally(() => {
+      setTimeout(() => {
+        setLoading(false);
+      }, 800);
     });
   });
+  if (loading) {
+    return (
+      <Loader></Loader>
+    );
+  }
   return (
     <>
       <h3 className="title">Positions ({allPositions.length})</h3>

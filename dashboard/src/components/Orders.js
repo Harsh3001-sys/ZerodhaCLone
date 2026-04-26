@@ -2,25 +2,32 @@ import React from "react";
 import { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import axios from "axios";
+import Loader from "./Loader";
 
 const Orders = () => {
   const [orders, setOrders] = useState([]);
-  // useEffect(() => {
-  //   axios.get("http://localhost:3002/getOrders").then((res) => {
-  //     console.log(res.data);
-  //     setOrders(res.data);
-  //   });
-  // }, []);
+  const [loading, setLoading] = useState(true);
   useEffect(() => {
     axios.get("http://localhost:3002/getOrders", {
-      withCredentials: true // ✅ VERY IMPORTANT
+      withCredentials: true 
     })
       .then((res) => {
         console.log(res.data);
         setOrders(res.data);
       })
-      .catch(err => console.log(err));
+      .catch(err => console.log(err))
+      .finally(() => setTimeout(() => {
+        setLoading(false);
+      }, 800));
   }, []);
+
+
+    if(loading){
+      return (
+        <Loader></Loader>
+      );
+    };
+  
   return (
     <div className="orders">
       {orders.length === 0 ? (

@@ -1,11 +1,12 @@
 import React, { useState, useContext } from "react";
-
+import { useEffect } from "react";
 import axios from "axios";
 
 import GeneralContext from "./GeneralContext";
 
 import { Tooltip, Grow } from "@mui/material";
 import "./watchlist.css";
+import Loader from "./Loader";
 
 import {
   BarChartOutlined,
@@ -14,70 +15,100 @@ import {
   MoreHoriz,
 } from "@mui/icons-material";
 
-import { watchlist } from "../data/data";
+import { watchlist as initialWatchlist } from "../data/data";
 import { DoughnutChart } from "./DoughnoutChart";
 
-const labels = watchlist.map((subArray) => subArray["name"]);
-
 const WatchList = () => {
+  const [watchlistData, setWatchlistData] = useState(initialWatchlist);
+  const [searchTerm, setSearchTerm] = useState("");
+  const labels = watchlistData.map((subArray) => subArray["name"]);
   const data = {
     labels,
     datasets: [
       {
         label: "Price",
-        data: watchlist.map((stock) => stock.price),
+        data: watchlistData.map((stock) => stock.price),
+
         backgroundColor: [
-          "rgba(255, 99, 132, 0.5)",
-          "rgba(54, 162, 235, 0.5)",
-          "rgba(255, 206, 86, 0.5)",
-          "rgba(75, 192, 192, 0.5)",
-          "rgba(153, 102, 255, 0.5)",
-          "rgba(255, 159, 64, 0.5)",
+          "rgba(46, 125, 250, 0.75)",   // blue
+          "rgba(0, 184, 148, 0.75)",    // green
+          "rgba(255, 171, 0, 0.75)",    // amber
+          "rgba(142, 68, 173, 0.75)",   // purple
+          "rgba(231, 76, 60, 0.75)",    // red
+          "rgba(26, 188, 156, 0.75)",   // teal
+          "rgba(52, 152, 219, 0.75)",   // sky blue
+          "rgba(241, 196, 15, 0.75)"    // gold
         ],
+
         borderColor: [
-          "rgba(255, 99, 132, 1)",
-          "rgba(54, 162, 235, 1)",
-          "rgba(255, 206, 86, 1)",
-          "rgba(75, 192, 192, 1)",
-          "rgba(153, 102, 255, 1)",
-          "rgba(255, 159, 64, 1)",
+          "#2E7DFA",
+          "#00B894",
+          "#FFAB00",
+          "#8E44AD",
+          "#E74C3C",
+          "#1ABC9C",
+          "#3498DB",
+          "#F1C40F"
         ],
-        borderWidth: 1,
+
+        borderWidth: 2,
       },
     ],
   };
 
-  // export const data = {
-  //   labels: ["Red", "Blue", "Yellow", "Green", "Purple", "Orange"],
-  // datasets: [
-  //   {
-  //     label: "# of Votes",
-  //     data: [12, 19, 3, 5, 2, 3],
-  //     backgroundColor: [
-  //       "rgba(255, 99, 132, 0.2)",
-  //       "rgba(54, 162, 235, 0.2)",
-  //       "rgba(255, 206, 86, 0.2)",
-  //       "rgba(75, 192, 192, 0.2)",
-  //       "rgba(153, 102, 255, 0.2)",
-  //       "rgba(255, 159, 64, 0.2)",
-  //     ],
-  //     borderColor: [
-  //       "rgba(255, 99, 132, 1)",
-  //       "rgba(54, 162, 235, 1)",
-  //       "rgba(255, 206, 86, 1)",
-  //       "rgba(75, 192, 192, 1)",
-  //       "rgba(153, 102, 255, 1)",
-  //       "rgba(255, 159, 64, 1)",
-  //     ],
-  //     borderWidth: 1,
-  //   },
-  // ],
-  // };
-  const [searchTerm, setSearchTerm] = useState("");
-
-  const filteredWatchlist = watchlist.filter((stock) =>
+  const filteredWatchlist = watchlistData.filter((stock) =>
     stock.name.toLowerCase().includes(searchTerm.toLowerCase())
   );
+
+  useEffect(() => {
+
+    const fetchLivePrices = () => {
+
+      axios.get(
+        "http://localhost:3002/live-prices",
+        { withCredentials: true }
+      )
+        .then(res => {
+
+          setWatchlistData(prev =>
+            prev.map(stock => {
+
+              const liveStock = res.data.find(
+                q =>
+                  q.symbol.replace(".NS", "") ===
+                  stock.name
+              );
+
+              if (!liveStock) return stock;
+
+              return {
+                ...stock,
+                price: liveStock.price,
+                percent:
+                  liveStock.dayChange.toFixed(2) + "%",
+                isDown: liveStock.isLoss
+              };
+
+            })
+          );
+
+        })
+        .catch(err => {
+          console.error(err);
+        });
+
+    };
+
+    fetchLivePrices();
+
+    const interval = setInterval(
+      fetchLivePrices,
+      15000
+    );
+
+    return () => clearInterval(interval);
+
+  }, []);
 
   return (
     <div className="watchlist-container">
@@ -91,7 +122,7 @@ const WatchList = () => {
           value={searchTerm}
           onChange={(e) => setSearchTerm(e.target.value)}
         />
-        <span className="counts"> {filteredWatchlist.length} / 50</span>
+        <span className="counts"> {filteredWatchlist.length} / {watchlistData.length}</span>
       </div>
 
       <ul className="list">

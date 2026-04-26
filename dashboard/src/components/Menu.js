@@ -142,14 +142,6 @@ const Menu = () => {
               </p>
             </Link>
           </li>
-          {/* <li>
-            <p className={menuClass}
-              onClick={handleLogout}
-              style={{ cursor: "pointer" }}>
-              Logout
-            </p>
-
-          </li> */}
         </ul>
         <hr />
         <div className="profile" onClick={() => handleProfileClick()}>

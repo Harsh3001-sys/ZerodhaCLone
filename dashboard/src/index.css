@@ -249,7 +249,7 @@ code {
   cursor: pointer;
 }
 
-.menu-container {
+/* .menu-container {
   flex-basis: 68%;
   height: 100%;
   padding: 10px 20px;
@@ -257,6 +257,18 @@ code {
   display: flex;
   align-items: center;
   justify-content: space-between;
+} */
+
+.menu-container{
+width:67%;
+height:64px;
+padding:0 32px;
+box-sizing:border-box;
+display:flex;
+align-items:center;
+justify-content:space-between;
+background:#fff;
+border-bottom:1px solid #ececec;
 }
 
 .logo {
@@ -270,20 +282,40 @@ code {
   justify-content: space-evenly;
 }
 
-.menus ul {
+/* .menus ul {
   list-style-type: none;
+} */
+
+.menus ul{
+display:flex;
+align-items:center;
+gap:30px;
+list-style:none;
+margin:0;
+padding:0;
 }
 
-.menus li {
+/* .menus li {
   display: inline-block;
   margin-right: 30px;
   text-decoration: none;
+} */
+
+.menus li{
+margin:0;
 }
 
-.menu {
+/* .menu {
   font-size: 0.8rem;
   font-weight: 400;
   color: rgb(70, 70, 70);
+} */
+
+.menu{
+font-size:14px;
+font-weight:500;
+color:#444;
+transition:.2s;
 }
 
 .menu.selected {
@@ -655,7 +687,7 @@ hr {
   padding: 15px 20px;
   font-size: 0.9rem;
   font-weight: 400;
-  color: rgb(241, 241, 241);
+  color: rgb(56, 56, 56);
   border-bottom: 0.8px solid rgb(235, 234, 234);
 }
 
@@ -967,4 +999,33 @@ hr {
     font-size: 14px;
   }
 
+}
+
+.loader-container{
+height:60vh;
+display:flex;
+flex-direction:column;
+justify-content:center;
+align-items:center;
+gap:15px;
+}
+
+.loader{
+width:45px;
+height:45px;
+border:4px solid #ddd;
+border-top:4px solid #387ed1;
+border-radius:50%;
+animation:spin 1s linear infinite;
+}
+
+@keyframes spin{
+100%{
+transform:rotate(360deg);
+}
+}
+
+.loader-container p{
+color:#666;
+font-size:15px;
 }

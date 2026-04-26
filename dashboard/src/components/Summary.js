@@ -6,7 +6,7 @@ const Summary = () => {
 
   useEffect(() => {
     axios.get("http://localhost:3002/getHoldings", {
-      withCredentials: true, // ✅ VERY IMPORTANT
+      withCredentials: true, 
     }).then((res) => {
       console.log(res.data);
       setAllHoldings(res.data);
@@ -40,7 +40,10 @@ const Summary = () => {
 
   const openingBalance = user?.balance || 0;
   const marginUsed = totalInvestment;
-  const marginAvailable = openingBalance - marginUsed;
+  const marginAvailable = Math.max(
+    openingBalance - marginUsed,
+    0
+  );
   return (
     <>
       <div className="username">
@@ -57,8 +60,6 @@ const Summary = () => {
           <div className="first">
             <h3>{marginAvailable.toFixed(2)}</h3>
             <p>Margin available</p>
-            <h3>₹{user?.balance || 0}</h3>
-            <p>Balance available</p>
           </div>
           <hr />
 

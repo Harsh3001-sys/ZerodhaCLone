@@ -9,6 +9,7 @@ const cors = require("cors");
 const bodyParser = require("body-parser");
 const cookieParser = require("cookie-parser");
 const jwt = require("jsonwebtoken");
+const axios = require("axios");
 
 app.use(cookieParser());
 
@@ -121,11 +122,11 @@ app.post("/newOrder", verifyUser, async (req, res) => {
     }
   }
 
-  if(mode === "BUY"){
+  if (mode === "BUY") {
     const totalCost = qty * price;
 
-    if(user.balance < totalcost){
-       return res.status(400).json({
+    if (user.balance < totalCost) {
+      return res.status(400).json({
         message: "Insufficient balance",
       });
     }
@@ -229,4 +230,46 @@ app.post("/logout", (req, res) => {
 app.get("/me", verifyUser, async (req, res) => {
   const user = await UserModel.findById(req.userId);
   res.json(user);
+});
+
+app.get("/live-prices", async (req, res) => {
+  try {
+
+    const response = await axios.get(
+      "https://apidojo-yahoo-finance-v1.p.rapidapi.com/market/v2/get-quotes",
+      {
+        params: {
+          symbols:
+            "BHARTIARTL.NS,ITC.NS,KPITTECH.NS,INFY.NS,ONGC.NS,TCS.NS,WIPRO.NS,RELIANCE.NS,HINDUNILVR.NS",
+          region: "IN"
+        },
+        headers: {
+          "X-RapidAPI-Key": process.env.RAPID_API_KEY,
+          "X-RapidAPI-Host":
+            "apidojo-yahoo-finance-v1.p.rapidapi.com"
+        }
+      });
+
+    const quotes = response.data.quoteResponse.result;
+
+    const cleanedData = quotes.map(stock => ({
+      symbol: stock.symbol,
+      price: stock.regularMarketPrice,
+      dayChange: stock.regularMarketChangePercent,
+      netChange: stock.regularMarketChange,
+      isLoss: stock.regularMarketChangePercent < 0
+    }));
+
+    console.log(cleanedData); // test first
+
+    res.json(cleanedData);
+
+  }
+  catch (err) {
+    console.error(err);
+    res.status(500).json({
+      error: "Failed fetching live prices"
+    });
+  }
+
 });

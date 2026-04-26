@@ -1,22 +1,70 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
 import { VerticalGraph } from "./VerticalGraph";
-
-// import { holdings } from "../data/data";
-
+import Loader from "./Loader";
 const Holdings = () => {
   const [allHoldings, setAllHoldings] = useState([]);
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     axios.get("http://localhost:3002/getHoldings", {
-      withCredentials: true, // ✅ VERY IMPORTANT
+      withCredentials: true,
     }).then((res) => {
-      console.log(res.data);
       setAllHoldings(res.data);
+    }).catch((err) => {
+      console.error("Error fetching holdings:", err);
+    }).finally(() => {
+      setTimeout(() => {
+        setLoading(false);
+      }, 800); // 800ms
     });
   }, []);
 
-  // const labels = ['January', 'February', 'March', 'April', 'May', 'June', 'July'];
+  useEffect(() => {
+    const fetchLivePrices = () => {
+      axios.get(
+        "http://localhost:3002/live-prices",
+        { withCredentials: true }
+      )
+        .then(res => {
+
+          setAllHoldings(prev =>
+            prev.map(stock => {
+
+              const liveStock = res.data.find(
+                q => q.symbol.replace(".NS", "") === stock.name
+              );
+
+              if (!liveStock) return stock;
+
+              return {
+                ...stock,
+                price: liveStock.price,
+                day: liveStock.dayChange.toFixed(2) + "%",
+                isLoss: liveStock.isLoss
+              };
+
+            })
+          );
+
+        })
+        .catch(err => {
+          console.error(err);
+        });
+
+    }
+
+    fetchLivePrices();
+
+    const interval = setInterval(
+      fetchLivePrices,
+      15000
+    );
+
+    return () => clearInterval(interval);
+
+  }, []);
+
   const labels = allHoldings.map((subArray) => subArray["name"]);
 
   const data = {
@@ -25,27 +73,27 @@ const Holdings = () => {
       {
         label: "Stock Price",
         data: allHoldings.map((stock) => stock.price),
-        backgroundColor: "rgba(255, 99, 132, 0.5)",
+        backgroundColor: "rgba(56, 126, 209, 0.75)",
+        borderColor: "#387ed1",
+        borderWidth: 2,
       },
     ],
   };
 
-  // export const data = {
-  //   labels,
-  //   datasets: [
-  // {
-  //   label: 'Dataset 1',
-  //   data: labels.map(() => faker.datatype.number({ min: 0, max: 1000 })),
-  //   backgroundColor: 'rgba(255, 99, 132, 0.5)',
-  // },
-  //     {
-  //       label: 'Dataset 2',
-  //       data: labels.map(() => faker.datatype.number({ min: 0, max: 1000 })),
-  //       backgroundColor: 'rgba(53, 162, 235, 0.5)',
-  //     },
-  //   ],
-  // };
-
+  const totalInvestment = allHoldings.reduce(
+    (acc, stock) => acc + stock.avg * stock.qty,
+    0
+  );
+  const currentValue = allHoldings.reduce(
+    (acc, stock) => acc + stock.price * stock.qty,
+    0
+  );
+  const pnl = currentValue - totalInvestment;
+  if (loading) {
+    return (
+      <Loader></Loader>
+    );
+  }
   return (
     <>
       <h3 className="title">Holdings ({allHoldings.length})</h3>
@@ -66,13 +114,13 @@ const Holdings = () => {
           </thead>
 
           <tbody>
-          {Array.isArray(allHoldings) && allHoldings.map((stock) => {
-            const curValue = stock.price * stock.qty;
-            const isProfit = curValue - stock.avg * stock.qty >= 0.0;
-            const profClass = isProfit ? "profit" : "loss";
-            const dayClass = stock.isLoss ? "loss" : "profit";
+            {Array.isArray(allHoldings) && allHoldings.map((stock) => {
+              const curValue = stock.price * stock.qty;
+              const isProfit = curValue - stock.avg * stock.qty >= 0.0;
+              const profClass = isProfit ? "profit" : "loss";
+              const dayClass = stock.isLoss ? "loss" : "profit";
 
-            return (
+              return (
                 <tr key={stock._id}>
                   <td>{stock.name}</td>
                   <td>{stock.qty}</td>
@@ -85,9 +133,9 @@ const Holdings = () => {
                   <td className={profClass}>{stock.net}</td>
                   <td className={dayClass}>{stock.day}</td>
                 </tr>
-              
-            );
-          })}
+
+              );
+            })}
           </tbody>
         </table>
       </div>
@@ -95,18 +143,20 @@ const Holdings = () => {
       <div className="row">
         <div className="col">
           <h5>
-            29,875.<span>55</span>{" "}
+            ₹{totalInvestment.toFixed(2)}
           </h5>
           <p>Total investment</p>
         </div>
         <div className="col">
           <h5>
-            31,428.<span>95</span>{" "}
+            ₹{currentValue.toFixed(2)}
           </h5>
           <p>Current value</p>
         </div>
         <div className="col">
-          <h5>1,553.40 (+5.20%)</h5>
+          <h5 className={pnl >= 0 ? "profit" : "loss"}>
+            ₹{pnl.toFixed(2)}
+          </h5>
           <p>P&L</p>
         </div>
       </div>

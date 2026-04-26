@@ -1,7 +1,64 @@
 import React from "react";
 import { Link } from "react-router-dom";
+import { useState, useEffect } from "react";
+import axios from "axios";
+import Loader from "./Loader";
 
 const Funds = () => {
+  const [allHoldings, setAllHoldings] = useState([]);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    axios.get("http://localhost:3002/getHoldings", {
+      withCredentials: true, // ✅ VERY IMPORTANT
+    }).then((res) => {
+      console.log(res.data);
+      setAllHoldings(res.data);
+    }).catch((err) => {
+      console.error("Error fetching holdings:", err);
+    }).finally(() => {
+      setTimeout(() => {
+        setLoading(false);
+      }, 800);
+    });
+  }, []);
+
+  const [user, setUser] = useState(null);
+
+  useEffect(() => {
+    axios.get("http://localhost:3002/me", {
+      withCredentials: true,
+    }).then((res) => {
+      setUser(res.data);
+    }).catch((err) => {
+      console.error("Error fetching user data:", err);
+    }).finally(() => {
+      setTimeout(() => {
+        setLoading(false);
+      }, 800);
+    });
+  }, []);
+
+  const totalInvestment = allHoldings.reduce(
+    (acc, stock) => acc + stock.avg * stock.qty,
+    0
+  );
+
+  const openingBalance = user?.balance || 0;
+  const marginUsed = totalInvestment;
+  const marginAvailable = Math.max(
+    openingBalance - marginUsed,
+  );
+  const currentValue = allHoldings.reduce(
+    (acc, stock) => acc + stock.price * stock.qty,
+    0
+  );
+  const pnl = currentValue - totalInvestment;
+  if (loading) {
+    return (
+      <Loader></Loader>
+    );
+  }
   return (
     <>
       <div className="funds">
@@ -19,65 +76,29 @@ const Funds = () => {
           <div className="table">
             <div className="data">
               <p>Available margin</p>
-              <p className="imp colored">4,043.10</p>
+              <p className="imp colored">
+                ₹{marginAvailable.toFixed(2)}
+              </p>
             </div>
             <div className="data">
               <p>Used margin</p>
-              <p className="imp">3,757.30</p>
-            </div>
-            <div className="data">
-              <p>Available cash</p>
-              <p className="imp">4,043.10</p>
+              <p className="imp">₹{marginUsed.toFixed(2)}</p>
             </div>
             <hr />
             <div className="data">
               <p>Opening Balance</p>
-              <p>4,043.10</p>
+              <p>₹{openingBalance.toFixed(2) || 0}</p>
             </div>
             <div className="data">
-              <p>Opening Balance</p>
-              <p>3736.40</p>
+              <p>Current Investment</p>
+              <p>₹{marginUsed.toFixed(2)}</p>
             </div>
             <div className="data">
-              <p>Payin</p>
-              <p>4064.00</p>
+              <p>Unrealized P&L</p>
+              <p className={pnl >= 0 ? "profit" : "loss"}>
+                ₹{pnl.toFixed(2)}
+              </p>
             </div>
-            <div className="data">
-              <p>SPAN</p>
-              <p>0.00</p>
-            </div>
-            <div className="data">
-              <p>Delivery margin</p>
-              <p>0.00</p>
-            </div>
-            <div className="data">
-              <p>Exposure</p>
-              <p>0.00</p>
-            </div>
-            <div className="data">
-              <p>Options premium</p>
-              <p>0.00</p>
-            </div>
-            <hr />
-            <div className="data">
-              <p>Collateral (Liquid funds)</p>
-              <p>0.00</p>
-            </div>
-            <div className="data">
-              <p>Collateral (Equity)</p>
-              <p>0.00</p>
-            </div>
-            <div className="data">
-              <p>Total Collateral</p>
-              <p>0.00</p>
-            </div>
-          </div>
-        </div>
-
-        <div className="col">
-          <div className="commodity">
-            <p>You don't have a commodity account</p>
-            <Link className="btn btn-blue">Open Account</Link>
           </div>
         </div>
       </div>

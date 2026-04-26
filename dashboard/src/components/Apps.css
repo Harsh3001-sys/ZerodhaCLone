@@ -1,0 +1,34 @@
+.uni-span{
+    font-size: 0.75rem;
+    color: #9b9b9b;
+}
+
+.uni-img{
+    width: 12rem;
+    margin-bottom: 1rem;
+}
+
+.uni-cont{
+    margin-top: 2.5rem;
+    align-items: center;
+    justify-content: center;
+}
+
+.uni-cont div{
+    margin-top: 1.25rem;
+    margin-bottom: 1.25rem;
+}
+
+.uni-images{
+    display: flex;
+    justify-content: space-evenly;
+}
+
+.kite{
+    width: 6rem;
+}
+
+.uni-cont a{
+    
+    text-decoration: none;
+}
