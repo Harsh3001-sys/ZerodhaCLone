@@ -1,11 +1,3 @@
-// import React from 'react';
-
-// function SignUp() {
-//     return ( <h1>SignUp</h1> );
-// }
-
-// export default SignUp;
-
 import React, { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import axios from "axios";
@@ -110,7 +102,6 @@ const Signup = () => {
               Already have an account? <Link to={"/login"}>Login</Link>
             </span>
           </form>
-          {/* <ToastContainer /> */}
         </div>
       </div>
     </div>

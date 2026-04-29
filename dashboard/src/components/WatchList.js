@@ -139,7 +139,7 @@ const WatchList = () => {
 
     const interval = setInterval(
       fetchLivePrices,
-      15000
+      5000
     );
 
     return () => clearInterval(interval);

@@ -1,9 +1,8 @@
 import React, { useState } from "react";
 import { Link } from "react-router-dom";
 import { useContext } from "react";
-
 import axios from "axios";
-
+import {toast} from "react-toastify";
 import GeneralContext from "./GeneralContext";
 
 import "./BuyActionWindow.css";
@@ -15,7 +14,8 @@ const BuyActionWindow = ({ uid }) => {
   const { closeBuyWindow } = useContext(GeneralContext);
 
   const handleBuyClick = async () => {
-    await axios.post("http://localhost:3002/newOrder", {
+    try{
+      await axios.post("http://localhost:3002/newOrder", {
       name: uid,
       qty: stockQuantity,
       price: stockPrice,
@@ -25,6 +25,14 @@ const BuyActionWindow = ({ uid }) => {
     );
 
     closeBuyWindow();
+
+    toast.success("Order placed successfully!");
+  }
+
+  catch (error) {
+    toast.error("Failed to place order.");
+  }
+
   };
 
   const handleCancelClick = () => {
