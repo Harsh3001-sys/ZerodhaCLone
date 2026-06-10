@@ -7,18 +7,19 @@ module.exports.Signup = async (req, res, next) => {
     const { email, password, username, createdAt } = req.body;
     const existingUser = await User.findOne({ email });
     if (existingUser) {
-      return res.json({ message: "User already exists" });
+      return res.json({ success: false, message: "User already exists" });
     }
     const user = await User.create({ email, password, username, createdAt });
     const token = createSecretToken(user._id);
-    // res.cookie("token", token, {
-    //   withCredentials: true,
-    //   httpOnly: false,
-    // });
     res.cookie("token", token, {
-      httpOnly: true,              // ✅ secure
-      sameSite: "lax",            // ✅ important for frontend-backend
-      secure: false,              // ✅ true only in production (HTTPS)
+      httpOnly: true,
+      sameSite:
+        process.env.NODE_ENV === "production"
+          ? "none"
+          : "lax",
+
+      secure:
+        process.env.NODE_ENV === "production",
     });
     res
       .status(201)
@@ -33,25 +34,28 @@ module.exports.Login = async (req, res, next) => {
   try {
     const { email, password } = req.body;
     if (!email || !password) {
-      return res.json({ message: 'All fields are required' })
+      return res.json({ success: false, message: 'All fields are required' })
     }
+
     const user = await User.findOne({ email });
     if (!user) {
-      return res.json({ message: 'Incorrect password or email' })
+      return res.json({ success: false, message: 'Incorrect password or email' })
     }
+
     const auth = await bcrypt.compare(password, user.password)
     if (!auth) {
-      return res.json({ message: 'Incorrect password or email' })
+      return res.json({ success: false, message: 'Incorrect password or email' })
     }
     const token = createSecretToken(user._id);
-    //  res.cookie("token", token, {
-    //    withCredentials: true,
-    //    httpOnly: false,
-    //  });
     res.cookie("token", token, {
-      httpOnly: true,              // ✅ secure
-      sameSite: "lax",            // ✅ important for frontend-backend
-      secure: false,              // ✅ true only in production (HTTPS)
+      httpOnly: true,
+      sameSite:
+        process.env.NODE_ENV === "production"
+          ? "none"
+          : "lax",
+
+      secure:
+        process.env.NODE_ENV === "production",
     });
     res.status(201).json({ message: "User logged in successfully", success: true });
     next()

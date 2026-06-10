@@ -16,7 +16,7 @@ app.use(cookieParser());
 app.use(bodyParser.json());
 app.use(
   cors({
-    origin: ["http://localhost:3000", "http://localhost:3001"],
+    origin: ["http://localhost:3000", "http://localhost:3001", process.env.FRONTEND_URL],
     credentials: true,
   })
 );
@@ -30,52 +30,19 @@ const { Signup } = require("./controllers/AuthController");
 const { Login } = require("./controllers/AuthController");
 const { userVerification } = require("./middlewares/AuthMiddleware");
 const verifyUser = require("./middlewares/verifyUser");
-// app.get("/addPositions", async (req, res) => {
-//     let tempPositions = [
-//         {
-//             product: "CNC",
-//             name: "EVEREADY",
-//             qty: 2,
-//             avg: 316.27,
-//             price: 312.35,
-//             net: "+0.58%",
-//             day: "-1.24%",
-//             isLoss: true,
-//         },
-//         {
-//             product: "CNC",
-//             name: "JUBLFOOD",
-//             qty: 1,
-//             avg: 3124.75,
-//             price: 3082.65,
-//             net: "+10.04%",
-//             day: "-1.35%",
-//             isLoss: true,
-//         },
-//     ];
 
-//     tempPositions.forEach((item) => {
-//         let newPosition = new PositionsModel({
-//             product: item.product,
-//             name: item.name,
-//             qty: item.qty,
-//             avg: item.avg,
-//             price: item.price,
-//             net: item.net,
-//             day: item.day,
-//             isLoss: item.isLoss,
-//         });
+mongoose.connect(url)
+  .then(() => {
+    console.log("Connected to MongoDB");
 
-//         newPosition.save();
-//     });
-//     res.send("Positions added");
-// })
+    app.listen(PORT, () => {
+      console.log("App started");
+    });
 
-app.listen(PORT, () => {
-  console.log("App started");
-  mongoose.connect(url);
-  console.log("Connected to MongoDB");
-})
+  })
+  .catch((err) => {
+    console.error("Mongo Error:", err);
+  });
 
 app.get("/getPositions", verifyUser, async (req, res) => {
   const positions = await PositionsModel.find({
@@ -107,14 +74,12 @@ app.post("/newOrder", verifyUser, async (req, res) => {
       name: req.body.name,
     });
 
-    // ❌ No stock found
     if (!existingOrder) {
       return res.status(400).json({
         message: "You don't own this stock",
       });
     }
 
-    // ❌ Not enough quantity
     if (existingOrder.qty < qty) {
       return res.status(400).json({
         message: "Insufficient stock quantity",
@@ -142,6 +107,11 @@ app.post("/newOrder", verifyUser, async (req, res) => {
     price: req.body.price,
     mode: req.body.mode,
     status: "PENDING",
+  });
+
+  res.status(200).json({
+    success: true,
+    message: `${mode} order placed successfully`
   });
 
   setTimeout(async () => {
@@ -198,9 +168,10 @@ app.post("/newOrder", verifyUser, async (req, res) => {
 });
 
 app.post("/signup", Signup);
+
 app.post("/login", Login);
+
 app.post("/auth", (req, res) => {
-  // console.log("COOKIE:", req.cookies);
   const token = req.cookies.token;
 
   if (!token) {
@@ -214,14 +185,21 @@ app.post("/auth", (req, res) => {
     return res.json({ status: false });
   }
 });
+
 app.post("/logout", (req, res) => {
+
   res.clearCookie("token", {
     httpOnly: true,
-    sameSite: "none",
-    secure: false,
-  }); // ✅ BEST WAY
+    sameSite:
+      process.env.NODE_ENV === "production"
+        ? "none"
+        : "lax",
 
-  res.json({
+    secure:
+      process.env.NODE_ENV === "production",
+  });
+
+  return res.json({
     success: true,
     message: "Logged out successfully",
   });
@@ -234,7 +212,6 @@ app.get("/me", verifyUser, async (req, res) => {
 
 app.get("/live-prices", async (req, res) => {
   try {
-
     const response = await axios.get(
       "https://apidojo-yahoo-finance-v1.p.rapidapi.com/market/v2/get-quotes",
       {
@@ -259,8 +236,6 @@ app.get("/live-prices", async (req, res) => {
       netChange: stock.regularMarketChange,
       isLoss: stock.regularMarketChangePercent < 0
     }));
-
-    console.log(cleanedData); // test first
 
     res.json(cleanedData);
 

@@ -10,9 +10,8 @@ const Funds = () => {
 
   useEffect(() => {
     axios.get("http://localhost:3002/getHoldings", {
-      withCredentials: true, // ✅ VERY IMPORTANT
+      withCredentials: true,
     }).then((res) => {
-      console.log(res.data);
       setAllHoldings(res.data);
     }).catch((err) => {
       console.error("Error fetching holdings:", err);
@@ -44,11 +43,11 @@ const Funds = () => {
     0
   );
 
-  const openingBalance = user?.balance || 0;
+  const openingBalance = 50000; 
   const marginUsed = totalInvestment;
-  const marginAvailable = Math.max(
-    openingBalance - marginUsed,
-  );
+
+  const marginAvailable =
+    user?.balance || 0;
   const currentValue = allHoldings.reduce(
     (acc, stock) => acc + stock.price * stock.qty,
     0

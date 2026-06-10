@@ -1,10 +1,12 @@
 import React, { useState, useEffect } from "react";
-import axios from "axios";
 import { VerticalGraph } from "./VerticalGraph";
 import Loader from "./Loader";
+import { useLivePrices } from "../context/LivePriceContext";
+import axios from "axios";
 const Holdings = () => {
   const [allHoldings, setAllHoldings] = useState([]);
   const [loading, setLoading] = useState(true);
+  const { livePrices } = useLivePrices();
 
   useEffect(() => {
     axios.get("http://localhost:3002/getHoldings", {
@@ -16,54 +18,34 @@ const Holdings = () => {
     }).finally(() => {
       setTimeout(() => {
         setLoading(false);
-      }, 800); // 800ms
+      }, 800); 
     });
   }, []);
 
   useEffect(() => {
-    const fetchLivePrices = () => {
-      axios.get(
-        "http://localhost:3002/live-prices",
-        { withCredentials: true }
-      )
-        .then(res => {
 
-          setAllHoldings(prev =>
-            prev.map(stock => {
+  if (!livePrices.length) return;
 
-              const liveStock = res.data.find(
-                q => q.symbol.replace(".NS", "") === stock.name
-              );
+  setAllHoldings(prev =>
+    prev.map(stock => {
 
-              if (!liveStock) return stock;
+      const liveStock = livePrices.find(
+        q => q.symbol.replace(".NS", "") === stock.name
+      );
 
-              return {
-                ...stock,
-                price: liveStock.price,
-                day: liveStock.dayChange.toFixed(2) + "%",
-                isLoss: liveStock.isLoss
-              };
+      if (!liveStock) return stock;
 
-            })
-          );
+      return {
+        ...stock,
+        price: liveStock.price,
+        day: liveStock.dayChange.toFixed(2) + "%",
+        isLoss: liveStock.isLoss
+      };
 
-        })
-        .catch(err => {
-          console.error(err);
-        });
+    })
+  );
 
-    }
-
-    fetchLivePrices();
-
-    const interval = setInterval(
-      fetchLivePrices,
-      15000
-    );
-
-    return () => clearInterval(interval);
-
-  }, []);
+}, [livePrices]);
 
   const labels = allHoldings.map((subArray) => subArray["name"]);
 

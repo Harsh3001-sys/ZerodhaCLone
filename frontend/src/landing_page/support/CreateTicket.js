@@ -1,7 +1,7 @@
 import React from 'react';
 import  { useState } from "react";
 import './ticket.css';
-function CreateTicket({ icon, button, link1, link2, link3, link4, link5, link6 }) {
+function CreateTicket({ icon, button, link1, link2, link3, link4 }) {
     const [open, setOpen] = useState(false);
     return (
         <div className="tick-cont">
@@ -24,8 +24,6 @@ function CreateTicket({ icon, button, link1, link2, link3, link4, link5, link6 }
                     <a href="#">{link2}</a>
                     <a href="#">{link3}</a>
                     <a href="#">{link4}</a>
-                    <a href="#">{link5}</a>
-                    <a href="#">{link6}</a>
                 </div>
             </div>
         </div>

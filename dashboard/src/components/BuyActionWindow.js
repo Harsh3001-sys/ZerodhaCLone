@@ -2,36 +2,72 @@ import React, { useState } from "react";
 import { Link } from "react-router-dom";
 import { useContext } from "react";
 import axios from "axios";
-import {toast} from "react-toastify";
+import { toast } from "react-toastify";
 import GeneralContext from "./GeneralContext";
+import { useLivePrices } from "../context/LivePriceContext";
+import { useEffect } from "react";
 
 import "./BuyActionWindow.css";
 
 const BuyActionWindow = ({ uid }) => {
   const [stockQuantity, setStockQuantity] = useState(1);
   const [stockPrice, setStockPrice] = useState(0.0);
+  const { livePrices } = useLivePrices();
 
   const { closeBuyWindow } = useContext(GeneralContext);
 
+  useEffect(() => {
+
+  if (!livePrices.length) return;
+
+  const symbolMap = {
+    NIFTY50: "^NSEI",
+    SENSEX: "^BSESN"
+  };
+
+  const liveStock = livePrices.find(
+    q =>
+      (symbolMap[uid] || `${uid}.NS`)
+      === q.symbol
+  );
+
+  if (liveStock) {
+    setStockPrice(liveStock.price);
+  }
+
+}, [livePrices, uid]);
+
   const handleBuyClick = async () => {
-    try{
-      await axios.post("http://localhost:3002/newOrder", {
-      name: uid,
-      qty: stockQuantity,
-      price: stockPrice,
-      mode: "BUY",
-    },
-      { withCredentials: true }
-    );
+    try {
+      const { data } = await axios.post(
+        "http://localhost:3002/newOrder",
+        {
+          name: uid,
+          qty: stockQuantity,
+          price: stockPrice,
+          mode: "BUY",
+        },
+        { withCredentials: true }
+      );
 
-    closeBuyWindow();
+      toast.success(
+        data.message ||
+        "Order placed successfully!"
+      );
 
-    toast.success("Order placed successfully!");
-  }
+      closeBuyWindow();
+    }
 
-  catch (error) {
-    toast.error("Failed to place order.");
-  }
+    catch (error) {
+
+      if (error.response?.status === 400) {
+        toast.error(error.response.data.message);
+      } else {
+        toast.error("Something went wrong");
+      }
+
+      console.error(error);
+    }
 
   };
 
@@ -64,16 +100,15 @@ const BuyActionWindow = ({ uid }) => {
                 type="number"
                 name="price"
                 id="price"
-                step="0.05"
-                onChange={(e) => setStockPrice(e.target.value)}
                 value={stockPrice}
+                readOnly
               />
             </fieldset>
           </div>
         </div>
 
         <div className="buttons">
-          <span>Margin required ₹140.65</span>
+          <span>Margin required {(stockQuantity * stockPrice).toFixed(2)}</span>
           <div>
             <Link className="btn btn-blue" onClick={handleBuyClick}>
               Buy

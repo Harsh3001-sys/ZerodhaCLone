@@ -6,9 +6,8 @@ const Summary = () => {
 
   useEffect(() => {
     axios.get("http://localhost:3002/getHoldings", {
-      withCredentials: true, 
+      withCredentials: true,
     }).then((res) => {
-      console.log(res.data);
       setAllHoldings(res.data);
     });
   }, []);
@@ -38,12 +37,11 @@ const Summary = () => {
   const pnlPercent =
     totalInvestment > 0 ? ((pnl / totalInvestment) * 100).toFixed(2) : 0;
 
-  const openingBalance = user?.balance || 0;
+  const openingBalance = 50000; 
   const marginUsed = totalInvestment;
-  const marginAvailable = Math.max(
-    openingBalance - marginUsed,
-    0
-  );
+
+  const marginAvailable =
+    user?.balance || 0;
   return (
     <>
       <div className="username">

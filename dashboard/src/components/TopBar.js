@@ -1,6 +1,7 @@
 import React from "react";
 import { useEffect, useState } from "react";
 import Menu from "./Menu";
+import {useLivePrices} from "../context/LivePriceContext";
 import axios from "axios";
 
 const TopBar = () => {
@@ -16,47 +17,33 @@ const TopBar = () => {
       isDown: false
     }
   });
-
+  const { livePrices } = useLivePrices();
   useEffect(() => {
 
-    const fetchIndices = () => {
-      axios.get(
-        "http://localhost:3002/live-prices",
-        { withCredentials: true }
-      )
-        .then(res => {
-          const nifty = res.data.find(q => q.symbol === "^NSEI");
-          const sensex = res.data.find(q => q.symbol === "^BSESN");
-          setIndices(
-            {
-              nifty: {
-                price: nifty?.price || 0,
-                change: nifty?.dayChange || 0,
-                isDown: nifty?.isLoss || false
-              },
-              sensex: {
-                price: sensex?.price || 0,
-                change: sensex?.dayChange || 0,
-                isDown: sensex?.isLoss || false
-              }
-            }
-          );
-        })
-        .catch(err => {
-          console.error(err);
-        });
-    };
+  if (!livePrices.length) return;
 
-    fetchIndices();
+  const nifty = livePrices.find(
+    q => q.symbol === "^NSEI"
+  );
 
-    const interval = setInterval(
-      fetchIndices,
-      15000
-    );
+  const sensex = livePrices.find(
+    q => q.symbol === "^BSESN"
+  );
 
-    return () => clearInterval(interval);
+  setIndices({
+    nifty: {
+      price: nifty?.price || 0,
+      change: nifty?.dayChange || 0,
+      isDown: nifty?.isLoss || false
+    },
+    sensex: {
+      price: sensex?.price || 0,
+      change: sensex?.dayChange || 0,
+      isDown: sensex?.isLoss || false
+    }
+  });
 
-  }, []);
+}, [livePrices]);
   return (
     <div className="topbar-container">
       <div className="indices-container">

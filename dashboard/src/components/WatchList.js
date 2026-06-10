@@ -7,6 +7,7 @@ import GeneralContext from "./GeneralContext";
 import { Tooltip, Grow } from "@mui/material";
 import "./watchlist.css";
 import Loader from "./Loader";
+import { useLivePrices } from "../context/LivePriceContext";
 
 import {
   BarChartOutlined,
@@ -23,6 +24,7 @@ const WatchList = () => {
   const [searchTerm, setSearchTerm] = useState("");
   const [loading, setLoading] = useState(true);
   const labels = watchlistData.map((subArray) => subArray["name"]);
+  const { livePrices } = useLivePrices();
   const data = {
     labels,
     datasets: [
@@ -89,96 +91,67 @@ const WatchList = () => {
   );
 
   useEffect(() => {
+    if(!livePrices.length) return;
+    setWatchlistData(prev =>
+      prev.map(stock => {
 
-    const fetchLivePrices = () => {
+        const symbolMap = {
+          NIFTY50: "^NSEI",
+          SENSEX: "^BSESN"
+        };
 
-      axios.get(
-        "http://localhost:3002/live-prices",
-        { withCredentials: true }
-      )
-        .then(res => {
+        const liveStock = livePrices.find(q =>
+          (symbolMap[stock.name] || `${stock.name}.NS`) === q.symbol
+        );
 
-          setWatchlistData(prev =>
-            prev.map(stock => {
+        if (!liveStock) return stock;
 
-              const symbolMap = {
-                NIFTY50: "^NSEI",
-                SENSEX: "^BSESN"
-              };
+        return {
+          ...stock,
+          price: liveStock.price,
+          netChange: liveStock.netChange.toFixed(2) + "₹",
+          percent:
+            liveStock.dayChange.toFixed(2) + "%",
+          isDown: liveStock.isLoss
+        };
 
-              const liveStock = res.data.find(q =>
-                (symbolMap[stock.name] || `${stock.name}.NS`) === q.symbol
-              );
-
-              if (!liveStock) return stock;
-
-              return {
-                ...stock,
-                price: liveStock.price,
-                netChange: liveStock.netChange.toFixed(2) + "₹",
-                percent:
-                  liveStock.dayChange.toFixed(2) + "%",
-                isDown: liveStock.isLoss
-              };
-
-            })
-          );
-
-        })
-        .catch(err => {
-          console.error(err);
-        }).finally(() => {
-          setTimeout(() => {
-            setLoading(false);
-          }, 800);
-        });;
-
-    };
-
-    fetchLivePrices();
-
-    const interval = setInterval(
-      fetchLivePrices,
-      5000
+      })
     );
+    setTimeout(() => {
+      setLoading(false);
+    }, 800);
+  }, [livePrices]);
 
-    return () => clearInterval(interval);
 
-  }, []);
-
-  // if (loading) {
-  //   return <Loader />;
-  // }
-
-  return (
-    <div className="watchlist-container">
-      <div className="search-container">
-        <input
-          type="text"
-          name="search"
-          id="search"
-          placeholder="Search:infy, bse, nifty fut weekly, gold mcx"
-          className="search"
-          value={searchTerm}
-          onChange={(e) => setSearchTerm(e.target.value)}
-        />
-        <span className="counts">
-          <span className="live-indicator">
-            Live
-          </span>
-          {filteredWatchlist.length} / {watchlistData.length}
+return (
+  <div className="watchlist-container">
+    <div className="search-container">
+      <input
+        type="text"
+        name="search"
+        id="search"
+        placeholder="Search:infy, bse, nifty fut weekly, gold mcx"
+        className="search"
+        value={searchTerm}
+        onChange={(e) => setSearchTerm(e.target.value)}
+      />
+      <span className="counts">
+        <span className="live-indicator">
+          Live
         </span>
-      </div>
-
-      <ul className="list">
-        {filteredWatchlist.map((stock, index) => {
-          return <WatchListItem stock={stock} key={index} />;
-        })}
-      </ul>
-
-      <DoughnutChart data={data} />
+        {filteredWatchlist.length} / {watchlistData.length}
+      </span>
     </div>
-  );
+
+    <ul className="list">
+      {filteredWatchlist.map((stock, index) => {
+        return <WatchListItem stock={stock} key={index} />;
+      })}
+    </ul>
+
+    <DoughnutChart data={data} />
+  </div>
+);
 };
 
 export default WatchList;
