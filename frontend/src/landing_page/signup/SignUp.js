@@ -33,7 +33,7 @@ const Signup = () => {
     e.preventDefault();
     try {
       const { data } = await axios.post(
-        "http://localhost:3002/signup",
+        `${process.env.REACT_APP_API_URL}/signup`,
         {
           ...inputValue,
         },
@@ -44,7 +44,7 @@ const Signup = () => {
         handleSuccess(message);
         setTimeout(() => {
           // navigate("/");
-          window.location.href = "http://localhost:3001";
+          window.location.href =   process.env.REACT_APP_DASHBOARD_URL;
         }, 1000);
         
       } else {

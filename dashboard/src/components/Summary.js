@@ -5,7 +5,7 @@ const Summary = () => {
   const [allHoldings, setAllHoldings] = useState([]);
 
   useEffect(() => {
-    axios.get("http://localhost:3002/getHoldings", {
+    axios.get(`${process.env.REACT_APP_API_URL}/getHoldings`, {
       withCredentials: true,
     }).then((res) => {
       setAllHoldings(res.data);
@@ -15,7 +15,7 @@ const Summary = () => {
   const [user, setUser] = useState(null);
 
   useEffect(() => {
-    axios.get("http://localhost:3002/me", {
+    axios.get(`${process.env.REACT_APP_API_URL}/me`, {
       withCredentials: true,
     }).then((res) => {
       setUser(res.data);

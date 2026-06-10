@@ -10,7 +10,7 @@ export const LivePriceProvider = ({ children }) => {
   const fetchLivePrices = async () => {
     try {
       const res = await axios.get(
-        "http://localhost:3002/live-prices",
+        `${process.env.REACT_APP_API_URL}/live-prices`,
         {
           withCredentials: true
         }

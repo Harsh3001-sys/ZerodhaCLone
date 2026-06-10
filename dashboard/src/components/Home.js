@@ -11,17 +11,15 @@ const Home = () => {
     const verifyUser = async () => {
       try {
         const { data } = await axios.post(
-          "http://localhost:3002/auth",
+          `${process.env.REACT_APP_API_URL}/auth`,
           {},
           { withCredentials: true }
         );
 
         if (!data.status) {
-          // navigate("http://localhost:3000/login");
           window.location.href = "http://localhost:3000/login"; 
         }
       } catch (err) {
-        // navigate("http://localhost:3000/login");
         window.location.href = "http://localhost:3000/login";
       }
     };

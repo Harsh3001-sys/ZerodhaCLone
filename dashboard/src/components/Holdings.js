@@ -9,7 +9,7 @@ const Holdings = () => {
   const { livePrices } = useLivePrices();
 
   useEffect(() => {
-    axios.get("http://localhost:3002/getHoldings", {
+    axios.get(`${process.env.REACT_APP_API_URL}/getHoldings`, {
       withCredentials: true,
     }).then((res) => {
       setAllHoldings(res.data);

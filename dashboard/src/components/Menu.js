@@ -12,7 +12,7 @@ const Menu = () => {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
 
   useEffect(() => {
-    axios.get("http://localhost:3002/me", {
+    axios.get(`${process.env.REACT_APP_API_URL}/me`, {
       withCredentials: true,
     }).then((res) => {
       setUser(res.data);
@@ -36,7 +36,7 @@ const Menu = () => {
   const handleLogout = async () => {
     try {
       await axios.post(
-        "http://localhost:3002/logout",
+        `${process.env.REACT_APP_API_URL}/logout`,
         {},
         { withCredentials: true }
       );

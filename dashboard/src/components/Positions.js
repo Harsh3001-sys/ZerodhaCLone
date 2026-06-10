@@ -7,7 +7,7 @@ const Positions = () => {
   const [allPositions, setAllPositions] = useState([]);
   const [loading, setLoading] = useState(true);
   useEffect(() => {
-    axios.get("http://localhost:3002/getPositions", {
+    axios.get(`${process.env.REACT_APP_API_URL}/getPositions`, {
       withCredentials: true, // ✅ VERY IMPORTANT
     }).then((res) => {
       setAllPositions(res.data);

@@ -8,11 +8,10 @@ const Orders = () => {
   const [orders, setOrders] = useState([]);
   const [loading, setLoading] = useState(true);
   useEffect(() => {
-    axios.get("http://localhost:3002/getOrders", {
+    axios.get(`${process.env.REACT_APP_API_URL}/getOrders`, {
       withCredentials: true 
     })
       .then((res) => {
-        console.log(res.data);
         setOrders(res.data);
       })
       .catch(err => console.log(err))
