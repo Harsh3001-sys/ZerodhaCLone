@@ -2,7 +2,6 @@ import React from "react";
 import { useEffect, useState } from "react";
 import Menu from "./Menu";
 import {useLivePrices} from "../context/LivePriceContext";
-import axios from "axios";
 
 const TopBar = () => {
   const [indices, setIndices] = useState({

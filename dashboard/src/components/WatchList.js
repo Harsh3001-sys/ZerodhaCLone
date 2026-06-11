@@ -1,12 +1,8 @@
 import React, { useState, useContext } from "react";
 import { useEffect } from "react";
-import axios from "axios";
-
 import GeneralContext from "./GeneralContext";
-
 import { Tooltip, Grow } from "@mui/material";
 import "./watchlist.css";
-import Loader from "./Loader";
 import { useLivePrices } from "../context/LivePriceContext";
 
 import {
@@ -22,7 +18,6 @@ import { DoughnutChart } from "./DoughnoutChart";
 const WatchList = () => {
   const [watchlistData, setWatchlistData] = useState(initialWatchlist);
   const [searchTerm, setSearchTerm] = useState("");
-  const [loading, setLoading] = useState(true);
   const labels = watchlistData.map((subArray) => subArray["name"]);
   const { livePrices } = useLivePrices();
   const data = {
@@ -117,9 +112,6 @@ const WatchList = () => {
 
       })
     );
-    setTimeout(() => {
-      setLoading(false);
-    }, 800);
   }, [livePrices]);
 
 
