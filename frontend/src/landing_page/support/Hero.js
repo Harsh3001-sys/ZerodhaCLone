@@ -5,7 +5,7 @@ function Hero() {
         <div className='main-sec'>
             <div className='row supp-cont'>
                 <div className='supp-div'>
-                    <a href='' className='supp-a'>Support Portal</a>
+                    <a href='/' className='supp-a'>Support Portal</a>
                     <button className='btn btn-primary ticket-button'>My Tickets</button>
                 </div>
                 <div className='input-box'>

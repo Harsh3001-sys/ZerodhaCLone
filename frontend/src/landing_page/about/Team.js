@@ -1,5 +1,4 @@
 import React from 'react';
-import { Link } from 'react-router-dom';
 import './team.css';
 function Team() {
     return (
@@ -17,7 +16,7 @@ function Team() {
                     <p className='team-p1'>Nithin bootstrapped and founded Zerodha in 2010 to overcome the hurdles he faced during his decade long stint as a trader. Today, Zerodha has changed the landscape of the Indian broking industry.</p>
                     <p className='team-p1'>He is a member of the SEBI Secondary Market Advisory Committee (SMAC) and the Market Data Advisory Committee (MDAC).</p>
                     <p className='team-p1'>Playing basketball is his zen.</p>
-                    <p className='team-p1'>Connect on <a href='' className='team-l'>Homepage</a> / <a href='' className='team-l'>TradingQnA</a> / <a href='' className='team-l'>Twitter</a></p>
+                    <p className='team-p1'>Connect on <a href='/' className='team-l'>Homepage</a> / <a href='/' className='team-l'>TradingQnA</a> / <a href='/' className='team-l'>Twitter</a></p>
                 </div>
             </div>
             <div className='row text-center gy-5'>

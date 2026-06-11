@@ -10,21 +10,21 @@ function Pricing() {
                 </div>
                 <div className='col-12 col-lg-7 images'>
                     <div className='pricing-item'>
-                        <img src='/images/pricing0.svg'></img>
+                        <img src='/images/pricing0.svg' alt="Free account opening" ></img>
                         <p className='img-txt'>Free account opening</p>
                     </div>
                     <div className='pricing-item'>
-                        <img src='/images/pricing0.svg'></img>
+                        <img src='/images/pricing0.svg' alt="Free equity delivery and direct mutual funds" ></img>
                         <p className='img-txt'>Free equity delivery and direct mutual funds</p>
                     </div>
                     <div className='pricing-item'>
-                        <img src='/images/intradayTrades.svg'></img>
+                        <img src='/images/intradayTrades.svg' alt="Intraday and F&O" ></img>
                         <p className='img-txt'>Intraday and F&O</p>
                     </div>
                 </div>
             </div>
             <div className='row'>
-                <p className='pricing-link'><a href=''>See pricing <i class="fa-solid fa-arrow-right"></i></a></p>
+                <p className='pricing-link'><a href='/'>See pricing <i class="fa-solid fa-arrow-right"></i></a></p>
             </div>
         </div>
     );

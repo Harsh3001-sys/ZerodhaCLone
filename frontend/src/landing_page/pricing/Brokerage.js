@@ -1,5 +1,4 @@
 import React from 'react';
-import { Link } from 'react-router-dom';
 import './brokerage.css';
 function Brokerage() {
     return (
@@ -62,7 +61,7 @@ function Brokerage() {
                             </tbody>
                         </table>
                     </div>
-                    <p className='t-p'>* Lower AMC is applicable only if the account qualifies as a Basic Services Demat Account (BSDA). BSDA account holders cannot hold more than one demat account. To learn more about BSDA, <a href=''>click here.</a></p>
+                    <p className='t-p'>* Lower AMC is applicable only if the account qualifies as a Basic Services Demat Account (BSDA). BSDA account holders cannot hold more than one demat account. To learn more about BSDA, <a href='/'>click here.</a></p>
                 </section>
                 <section className='t-section'>
                     <h2 className='t-head'>Charges for optional value added services</h2>
@@ -177,9 +176,9 @@ function Brokerage() {
                             <p className='p-head'>AMC (Account maintenance charges)
                             </p>
 
-                            <p className='p-txt'>For BSDA demat account: Zero charges if the holding value is less than ₹4,00,000. To learn more about BSDA, <a href=''>Click here</a></p>
+                            <p className='p-txt'>For BSDA demat account: Zero charges if the holding value is less than ₹4,00,000. To learn more about BSDA, <a href='/'>Click here</a></p>
 
-                            <p className='p-txt'>For non-BSDA demat accounts: ₹300/year + 18% GST charged quarterly (90 days). To learn more about AMC, <a href=''>Click here</a></p>
+                            <p className='p-txt'>For non-BSDA demat accounts: ₹300/year + 18% GST charged quarterly (90 days). To learn more about AMC, <a href='/'>Click here</a></p>
 
                             <p className='p-head'>Corporate action order charges</p>
 
@@ -199,7 +198,7 @@ function Brokerage() {
 
                             <p className='p-head'>Delayed Payment Charges</p>
 
-                            <p className='p-txt'>Interest is levied at 18% a year or 0.05% per day on the debit balance in your trading account. <a href=''>Learn more.</a></p>
+                            <p className='p-txt'>Interest is levied at 18% a year or 0.05% per day on the debit balance in your trading account. <a href='/'>Learn more.</a></p>
 
 
                             <p className='p-head'>Trading using 3-in-1 account with block functionality</p>
