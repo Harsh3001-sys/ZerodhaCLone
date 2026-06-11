@@ -14,9 +14,17 @@ const axios = require("axios");
 app.use(cookieParser());
 
 app.use(bodyParser.json());
+app.use(express.json());
+
 app.use(
   cors({
-    origin: ["http://localhost:3000", "http://localhost:3001", process.env.FRONTEND_URL, process.env.DASHBOARD_URL],
+    origin: [
+      "http://localhost:3000",
+      "http://localhost:3001",
+      process.env.FRONTEND_URL,
+      process.env.DASHBOARD_URL,
+    ],
+    methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
     credentials: true,
   })
 );
